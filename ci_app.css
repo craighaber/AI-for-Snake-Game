@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css?family=Lato:400,700');
+
+ body{
+	background-color: rgb(40,40,40);
+	color: rgb(31,240,12);
+	font-family: 'Lato', sans-serif;
+
+}
+
+.center{
+	text-align: center;
+}
+
+
+
+#heading{
+	margin-top: 100px;
+	font-size: 60px;
+}
+
+#sub_heading{
+	margin-top: 50px;
+	font-size: 35px;
+	animation-delay: .5s;
+}
+
+
+#gif{
+	display: block;
+	margin: 50px auto;
+	animation-delay: 1s;
+	
+}
+
+#author_text{
+	animation-delay: 1.5s;
+	margin-bottom: 100px;
+}
+
+#main_content{
+	margin: auto 20%;
+}
+
+.question{
+	font-size: 30px;
+}
+
+.question, .answer{
+	margin: 30px auto;
+}
+
+#final_note{
+	font-size: 25px;
+}
