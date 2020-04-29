@@ -29,13 +29,13 @@
 	display: block;
 	margin: 50px auto;
 	animation-delay: 1s;
-	width: 500px
+	width: 550px
 	
 }
 
 #author_text{
 	animation-delay: 1.5s;
-	margin-bottom: 100px;
+	margin-bottom: 120px;
 	font-size: 25px;
 }
 
