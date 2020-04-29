@@ -24,7 +24,7 @@
 	<body>
 		<h2 id = "heading" class = "animated bounceInLeft center">The AI for Snake Game Chronicles</h2>
 		<h5 id= "sub_heading" class = "animated bounceInRight center">The quest to create an intelligent Snake-playing agent</h4>
-		<img id = "gif" class = "animated bounceInLeft center" src="media/snake_loop.gif" alt="snake gif">
+		<img id = "gif" class = "animated bounceInLeft center" src="media/snake_game_loop.gif" alt="snake gif">
 		<h5 id= "author_text" class = "animated bounceInRight center">Authored by Craig Haber</h5>
 
 		<div id="main_content">
@@ -39,12 +39,19 @@
 			<p class="answer">The goal of this project is to create an autonomous snake agent that is very good at the game.</p>
 
 			<h3 class="question">How will this be accomplished?</h3>
-			<p class="answer">Currently, the idea is to create a multilayer neural network that makes a decision for the snake at every frame of the game. The inputs will relate to how close the snake is from fruit, the walls, its own body, etc. Then, the output will be a decision of whether the snake should move up, down, left or right.</p>
+			<p class="answer">The goal is to create a multilayer neural network that makes a decision for the snake at every frame of the game. Currently, the network has two hidden layers, each with 20 nodes. The inputs will be as follows:</p>
+			<ol>
+				<li>The manhattan distance from the snake's head to the fruit in each of the four directions</li>
+				<li>The distance from the snake's head to each of the four walls</li>
+				<li>Whether or not the snake will hit its body if it moves in each of the four directions</li>
+			</ol>
+
+			<p> Then, the output will be a decision of whether the snake should move up, down, left or right. Each decision for each direction will be a value between 0 and 1, and the snake will go in the direction that has the highest value associated with it.</p>
 
 			<h3 class="question">How will this neural network be trained?</h3>
 			<p class="answer">Considering that the agent needs to learn from scratch, the neural network will be trained by learning its weights through a genetic algorithm. The details of the fitness function and the specific parameters for the GA are still being determined at this time.</p>
 
-			<p id="final_note">Stay tuned for more future updates about the glorious Autonomous Snake Agent!!</p>
+			<p id="final_note">Stay tuned for more future updates about the AI for Snake Game Chronicles!!</p>
 		</div>
 	</body>
 

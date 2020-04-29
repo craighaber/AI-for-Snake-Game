@@ -29,12 +29,14 @@
 	display: block;
 	margin: 50px auto;
 	animation-delay: 1s;
+	width: 500px
 	
 }
 
 #author_text{
 	animation-delay: 1.5s;
 	margin-bottom: 100px;
+	font-size: 25px;
 }
 
 #main_content{
