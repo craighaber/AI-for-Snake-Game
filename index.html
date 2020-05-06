@@ -35,21 +35,68 @@
 				<li>The head of the snake crashed into its own body</li>
 			</ol>
 
-			<h3 class="question">What is the goal of this project?</h3>
-			<p class="answer">The goal of this project is to create an autonomous snake agent that is very good at the game.</p>
+			<h3 class="question">What was the goal of this project?</h3>
+			<p class="answer">The goal of this project was to create an autonomous snake agent that is quite good at the game, and it was successful insofar as it is usually much better than myself!</p>
 
-			<h3 class="question">How will this be accomplished?</h3>
-			<p class="answer">The goal is to create a multilayer neural network that makes a decision for the snake at every frame of the game. Currently, the network has two hidden layers, each with 20 nodes. The inputs will be as follows:</p>
+			<h3 class="question">How was this goal accomplished?</h3>
+			<p class="answer">The snake agent was designed to make a decision of which direction it should turn (up, down, left, right) for every frame of the game. This was accomplished through a neural network with two hidden layers, each with 10 nodes. The inputs were as follows:</p>
 			<ol>
 				<li>The manhattan distance from the snake's head to the fruit in each of the four directions</li>
-				<li>The distance from the snake's head to each of the four walls</li>
-				<li>Whether or not the snake will hit its body if it moves in each of the four directions</li>
+				<li>The amount of available space left in the grid if the snake decided to move in each of the four directions (achieved through Breadth First Search)</li>
+				<li>The length of the snake</li>
 			</ol>
 
-			<p> Then, the output will be a decision of whether the snake should move up, down, left or right. Each decision for each direction will be a value between 0 and 1, and the snake will go in the direction that has the highest value associated with it.</p>
+			<p> Then, thre are four output nodes, each representing a decision to move up, down, left or right. Each decision for each direction was a value between 0 and 1, and the snake went go in the direction that has the highest value associated with it.</p>
 
-			<h3 class="question">How will this neural network be trained?</h3>
-			<p class="answer">Considering that the agent needs to learn from scratch, the neural network will be trained by learning its weights through a genetic algorithm. The details of the fitness function and the specific parameters for the GA are still being determined at this time.</p>
+			<p>It is worth noting that the snake agent performed the best with this input/output scheme, but many other frameworks were tried and tested. For example, originally the neural network had no "space available" inputs. Instead, there were four inputs to determine if there was a wall directly next to the snake in each of the four directions, and four more inputs to determine if there was a snake body part in each of the four directions. These inputs did not allow the snake to plan an optimal path far in advance, so they were replaced with the "space available" inputs.</p>
+
+			<h3 class="question">How was the neural network be trained?</h3>
+			<p class="answer">Considering that the snake agent needed to learn from scratch, the neural network was trained by learning its weights through a genetic algorithm.
+
+			<h3 class="question">What is a genetic algorithm?</h3>
+			<p class="answer">A genetic algorithm (GA) is a type of algorithm that acheives learning through emulating the process of natural selection through nature. This involves creating an initial population of randomly generated chromosomes, each of which are bit strings represented with all values of 0 or 1. Later, these bit strings are systematically decoded into the parameters that are being learned, such as the weights for the neural network in the case of this project. The population then undertakes a series of four processes to simulate natural selection, which are as follows: Fitness Calculations, Selection, Crossover, and Mutation. In summary:</p>
+
+			<ol>
+				<li>Fitness Calculations
+				<ul>
+					<li>Involves letting the game play for each chromosome in the population, and assigning a score to each chromosome with a predetermined fitness function.</li>
+					<li>The fitness functon determines how well the agent performed with a given chromosome</li>
+				</ul>
+				<li>Selection</li>
+				<ul>
+					<li>After all of the fitness scores have been calculated for a population, two chromosomes are selected in a "rouleete-wheel" fashion to be used for Crossover. In other words, chromsomes with higher fitness scores are more likely to be selected for Crossover.</li>
+				</ul>
+				<li>Crossover</li>
+				<ul>
+					<li>Crossover is the process of creating new chromosomes to be used for the population in the next generation. It involves using some bits from one parent chromosome, and some bits from the other parent chromosome to create a new child chromosome.</li>
+				</ul>
+				<li>Mutation</li>
+				<ul>
+					<li>For each new child chromosome, each bit has a random chance of being "mutated", i.e. flipped from 0 to 1 or from 1 to 0.</li>
+					<li>Mutation is necessary to prevent the population from being stuck at a local maximum.</li>
+				</ul>
+			</ol>
+
+			<p>For sake of clarity, first all of the fitness calculations occur for a population, and then the processes of selection, crossover, and mutation occur in sequence until there is a population of child chromosomes equal to the chromosomes in the original population with traditional methods. However, the GA created for this project used a slightly different approach, where the half of the population with the highest fitness scores was merged with the newly generated child chromsomes. This is formally known as the (n+n) method. Then, this whole process of creating a new generation of chromosomes repeats indefinitely until an intelligent agent emerges.</p>
+
+
+			<h3 class="question">What was the fitness function used for the GA?</h3>
+
+			<p>The fitness function used for this project was a little complex. Formulaically, it was:</p>
+
+			<p>((score*2)^2)*(frame_score^1.5)</p>
+
+			<p>Score is equivalent to the length of the snake minus 1 (since the snake always starts at length 1), and frame_score is the amount of frames that the snake was alive. However, originally this fitness function resulted in many snakes that looped in circles endlessly without eating any fruit to maximize the frame_score component of the function. Thus, the training was modified such that all snakes are killed off if they do not eat a fruit in 50 frames. Also, if a snake dies due to not eating any fruit for 50 frames, 50 points were subtracted from the frame_score to discourage the behavior even further. </p>
+
+			<p>It is also worth noting that the constants in this fitness function were modified many times, but ultimately changing the constants did not result in any significantly different results. Also, some of the best snake agents resulted from a population that was first trained with the following fitness function instead:</p>
+
+			<p>((score^3)*(frame_score)</p>
+
+			Then, after about 400 generations, the fitness function was changed to be ((score*2)^2)*(frame_score^1.5) to encourage the snakes to prioritze survival over a little more, now that they were generally more developed. 
+
+
+			<h3 class="question">How were crossover and selection implemented?</h3>
+			<p>Crossover was implemented through Single-point crossover. This involves selecting a single point randomly to split the bits between each parent chromosome to create the child chromosome. As for mutation, the rate for mutating each bit was .008.</p>
 
 			<p id="final_note">Stay tuned for more future updates about the AI for Snake Game Chronicles!!</p>
 		</div>
