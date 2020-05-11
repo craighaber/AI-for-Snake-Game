@@ -55,7 +55,7 @@ def main():
 			#No valid input.
 			print("\nError: that was not a number from 1-3, please try again.")
 
-	fps = 30
+	fps = 25
 	num_inputs = 9
 	num_hidden_layer_nodes = 10
 	bits_per_weight = 8

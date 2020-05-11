@@ -44,14 +44,20 @@
 
 			<p  class="answer">First, I needed to code a version of the snake game myself so that it would be easier to develop intelligent agents for it. This was accomplished through Python and the library pygame. The game can be played <a class = "link" href = 'https://github.com/craighaber/AI-for-Snake-Game'>here</a> by running the playSnakeGame.py module once Python and pygame are installed.</p>
 
-			<p class="answer">Once the game was created, I needed to develop a method for the snake to make intelligent deciisions. I decided that the snake agent should make a decision for which direction it should turn (up, down, left, right), for every frame of the game. This was accomplished through a neural network with two hidden layers, each with 10 nodes. The inputs were as follows:</p>
+			<p class="answer">Once the game was created, I needed to develop a method for the snake to make intelligent decisions. I decided that the snake agent should make a decision for which direction it should turn (up, down, left, right), for every frame of the game. This was accomplished through a neural network with two hidden layers, each with 10 nodes. The inputs were as follows:</p>
 			<ol>
 				<li>The Manhattan distance from the snake's head to the fruit in each of the four directions.</li>
 				<li>The amount of available space left in the grid if the snake decides to move in each of the four directions (achieved through Breadth First Search).</li>
 				<li>The length of the snake.</li>
 			</ol>
 
-			<p class="answer"> Then, there are four output nodes, each representing a decision to move up, down, left or right. Each decision for each direction was a value between 0 and 1, and the snake went go in the direction that has the highest value associated with it.</p>
+			<p class= "answer">The inputs relating to the amount of available space are not as intuitive as the others, so let's look at a particular example state of the game:</p>
+
+			<img id = "snake_space" src = "media/snake_space.png">
+
+			<p class = "answer">The head of the snake is indicated by the green block with eyes. The other green blocks are parts of the snake's body. The amount of available space if it goes both down or up in the next frame is 0, since the head will hit its own body and game over. The amount of available space if it goes left in the next frame is 6, since there are 6 open spaces enclosed around the snake's body in that direction. Finally, the amount of available space if it decides to go right in the next frame is 74, because this is the amount of spaces left in the grid that are not closed off by its body.</p>
+
+			<p class="answer"> As for the outputs of the network, there are four nodes each representing a decision to move up, down, left or right. Each decision for each direction was a value between 0 and 1, and the snake went go in the direction that has the highest value associated with it.</p>
 
 			<p class="answer">It is worth noting that the snake agent performed the best with this input/output scheme, but many other frameworks were tried and tested. For example, originally the neural network did not calculate the amount of available space with Breadth First Search. Instead, there were four inputs to determine if there was a wall directly next to the snake in each of the four directions, and four more inputs to determine if there was a snake body part in each of the four directions. These inputs did not allow the snake to plan an optimal path far in advance, so the snake agents performed better when it could see how much space it has to move around in for each direction.</p>
 
