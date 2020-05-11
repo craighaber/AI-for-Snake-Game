@@ -1,4 +1,4 @@
-Check out the website below for a summary project and demos:
+Check out the following website for a summary project and demos:
 https://craighaber.github.io/AI-for-Snake-Game/
 
 There are 3 programs to check out in this project:
