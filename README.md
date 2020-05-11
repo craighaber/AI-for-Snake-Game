@@ -20,7 +20,7 @@ at the top of the module.
 ***Dependecies***:
    1. Python version of 3.7 or higher.
    2. The Python library pygame.
-        Type pip install pygame in the command prompt or terminal to install it.
+        Type "pip install pygame" in the command prompt or terminal to install it.
         If necessary, more specific instructions for installing pygame are here:
         https://www.pygame.org/wiki/GettingStarted 
 
