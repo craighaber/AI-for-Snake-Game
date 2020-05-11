@@ -9,14 +9,15 @@
 
 }
 
+
+
 .center{
 	text-align: center;
 }
 
 
-
 #heading{
-	margin-top: 100px;
+	margin-top: 120px;
 	font-size: 60px;
 }
 
@@ -53,6 +54,20 @@
 	margin: 30px auto;
 }
 
+.answer{
+	text-indent: 20px;
+}
+
+.link{
+	color: rgb(0,140,186);
+}
+
 #final_note{
 	font-size: 25px;
+}
+
+video{
+	display: block;
+	margin: 0 auto;
+	width: 400px;
 }
