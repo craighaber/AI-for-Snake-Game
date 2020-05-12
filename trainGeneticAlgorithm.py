@@ -8,10 +8,12 @@
 #https://craighaber.github.io/AI-for-Snake-Game/
 #*********************************************************************************
 #Instructions: 
-#Simply run the module to observe how the genetic algorithm was trained in action.
-#Specific information about each population is saved in Gadata.txt, and
-#for ever 10 populations, the population is saved in a file in the populations 
-#directory.
+#Simply run the module to observe how the genetic algorithm was trained in action,
+#starting from randomized chromosomes. 
+#Specific information about each population is saved in Gadata.txt in the same 
+#folder as this program, and the file will be created if it does not already exist.
+#Also, for every 10 populations, the population is saved in a file 
+#in the populations directory.
 #*********************************************************************************
 #Dependecies: 
 #

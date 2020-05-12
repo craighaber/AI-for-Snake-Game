@@ -12,10 +12,10 @@ There are 3 programs to check out in this project:
 	testTrainedAgents.py
 		Observe some of the best Snake Game agents trained with the genetic algorithm!
 	trainGeneticAlgorithm.py
-		Observe how the process of training Snake Game access functions from scratch!
+		Observe how the process of training Snake Game agents functions from scratch!
 
-For more specific instructions for each program, please view the comments
-at the top of the module.
+If more specific instructions for a program are needed, 
+please view the comments at the top of the module.
 
 ***Dependecies***:
    1. Python version of 3.7 or higher.
