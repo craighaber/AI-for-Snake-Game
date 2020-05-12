@@ -11,7 +11,8 @@
 #Simply run the module to observe how the genetic algorithm was trained in action,
 #starting from randomized chromosomes. 
 #Specific information about each population is saved in Gadata.txt in the same 
-#folder as this program, and the file will be created if it does not already exist.
+#folder as this program, and the file will be created if it does not already exist
+#after the first generation.
 #Also, for every 10 populations, the population is saved in a file 
 #in the populations directory.
 #*********************************************************************************

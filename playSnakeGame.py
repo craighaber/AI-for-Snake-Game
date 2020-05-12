@@ -28,7 +28,7 @@ from helpers.snakeGame import *
 def main():
 	"""Function to play the Snake Game."""
 
-	fps = 7
+	fps = 8
 	game = SnakeGame(fps)
 	pygame.font.init()
 

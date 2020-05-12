@@ -9,7 +9,8 @@
 #*********************************************************************************
 #Instructions: 
 #Follow the menu prompts in the command prompt/terminal to select which snake 
-#you would like to observe, and then watch as the agent plays in a new window.
+#you would like to observe, and then watch as the agent plays the game in 
+#a new window.
 #*********************************************************************************
 #Dependecies: 
 #

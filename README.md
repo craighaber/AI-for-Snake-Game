@@ -14,8 +14,6 @@ There are 3 programs to check out in this project:
 	trainGeneticAlgorithm.py
 		Observe how the process of training Snake Game agents functions from scratch!
 
-If more specific instructions for a program are needed, 
-please view the comments at the top of the module.
 
 ***Dependecies***:
    1. Python version of 3.7 or higher.
@@ -23,6 +21,37 @@ please view the comments at the top of the module.
         Type "pip install pygame" in the command prompt or terminal to install it.
         If necessary, more specific instructions for installing pygame are here:
         https://www.pygame.org/wiki/GettingStarted 
+
+
+Now, for some more detailed instructions for each program if necessary:
+
+playSnakeGame.py
+
+Use the arrow keys to move up, down, left, or right.
+The goal is to get the snake as long as possible by eating fruit (the red squares)
+You will die and then automatically restart the game if:
+	1. The snake hits a wall.
+	2. The snake hits its own body.
+
+testTrainedAgents.py
+
+Follow the menu prompts in the command prompt/terminal to select which snake 
+you would like to observe, and then watch as the agent plays the game
+in a new window.
+
+trainGeneticAlgorithm.py
+
+Simply run the module to observe how the genetic algorithm was trained in action,
+starting from randomized chromosomes. 
+Specific information about each population is saved in Gadata.txt in the same 
+folder as this program, and the file will be created if it does not already exist
+after the first generation.
+Also, for every 10 populations, the population is saved in a file 
+in the populations directory.
+
+
+
+
 
 
 
