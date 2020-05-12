@@ -2,7 +2,7 @@ This was a project to develop agents that are very good at playing the classic S
 the agents use a deep neural network to make a decision about which direction to move every frame, and
 the weights for this network were learned through a genetic algorithm.
 
-Check out the following website for a more detailed description of the project and demos:
+Check out the following website for a more detailed description of the project and demos:  
 https://craighaber.github.io/AI-for-Snake-Game/
 
 There are 3 programs to check out in this project:
