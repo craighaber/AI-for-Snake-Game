@@ -25,29 +25,29 @@ There are 3 programs to check out in this project:
 
 Now, for some more detailed instructions for each program if necessary:
 
-playSnakeGame.py
+	playSnakeGame.py
 
-Use the arrow keys to move up, down, left, or right.
-The goal is to get the snake as long as possible by eating fruit (the red squares)
-You will die and then automatically restart the game if:
-	1. The snake hits a wall.
-	2. The snake hits its own body.
+		Use the arrow keys to move up, down, left, or right.
+		The goal is to get the snake as long as possible by eating fruit (the red squares)
+		You will die and then automatically restart the game if:
+			1. The snake hits a wall.
+			2. The snake hits its own body.
 
-testTrainedAgents.py
+	testTrainedAgents.py
 
-Follow the menu prompts in the command prompt/terminal to select which snake 
-you would like to observe, and then watch as the agent plays the game
-in a new window.
+		Follow the menu prompts in the command prompt/terminal to select which snake 
+		you would like to observe, and then watch as the agent plays the game
+		in a new window.
 
-trainGeneticAlgorithm.py
+	trainGeneticAlgorithm.py
 
-Simply run the module to observe how the genetic algorithm was trained in action,
-starting from randomized chromosomes. 
-Specific information about each population is saved in Gadata.txt in the same 
-folder as this program, and the file will be created if it does not already exist
-after the first generation.
-Also, for every 10 populations, the population is saved in a file 
-in the populations directory.
+		Simply run the module to observe how the genetic algorithm was trained in action,
+		starting from randomized chromosomes. 
+		Specific information about each population is saved in Gadata.txt in the same 
+		folder as this program, and the file will be created if it does not already exist
+		after the first generation.
+		Also, for every 10 populations, the population is saved in a file 
+		in the populations directory.
 
 
 
