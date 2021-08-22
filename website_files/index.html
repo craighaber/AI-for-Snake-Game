@@ -111,7 +111,7 @@
 
 			<p class="answer">It is also important to reiterate that the process of selection, crossover, and mutation only occurred to create half of the chromosomes in each new population, and the other half was the half of the previous population with the highest fitness scores. This is known as the (n+n) method, and is described in the paper <a class="link" href="https://www.researchgate.net/publication/309390260_Snake_game_AI_Movement_rating_functions_and_evolutionary_algorithm-based_optimization">Snake game AI: Movement rating functions and evolutionary algorithm-based optimization</a>. The (n+n) method decently improved the performance of the genetic algorithm because it prevents the best chromosomes from being lost due to the randomness crossover and mutation.</p>
 
-			<p class="answer">Also, an interesting fact was there were 9 bits used per each weight in a chromosome, so the total length of a single chromosome ended up being 2032 bits!</p>
+			<p class="answer">Also, an interesting fact was there were 8 bits used per each weight in a chromosome, so the total length of a single chromosome ended up being 2032 bits!</p>
 
 			<h3 class="question">How were the neural network and genetic algorithm implemented programmatically?</h3>
 			<p class="answer">I created both the neural network and genetic algorithm completely from scratch with Python! The source code for these files can be seen <a class = "link" href = 'https://github.com/craighaber/AI-for-Snake-Game'>here</a>. The program to see how the genetic algorithm runs from the beginning with a randomized population is called trainGeneticAlgorithm.py, and the neural net/GA functions are in the "helpers" folder.</p>
