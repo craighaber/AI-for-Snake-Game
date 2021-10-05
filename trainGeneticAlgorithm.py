@@ -28,7 +28,8 @@
 import pygame
 import argparse
 from helpers.snakeGameGATrain import SnakeGameGATrain
-from helpers import geneticAlgorithm as ga 
+from helpers import geneticAlgorithm as ga
+import os
 
 
 def main(max_generations=200):
@@ -68,6 +69,13 @@ if __name__ == '__main__':
 	# Set options to activate or deactivate the game view, and its speed
 	parser = argparse.ArgumentParser()
 	parser.add_argument("--max_generations", nargs='?', type=int, default=200)
+	parser.add_argument("--headless", nargs='?', type=bool, default=False)
 	args = parser.parse_args()
 	print("Args", args)
+
+	# If being run on a headless server, set driver to dummy
+	# https://www.pygame.org/wiki/HeadlessNoWindowsNeeded
+	if args.headless:
+		os.environ["SDL_VIDEODRIVER"] = "dummy"
+
 	main(max_generations=args.max_generations)
