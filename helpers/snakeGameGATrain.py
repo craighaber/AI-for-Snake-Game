@@ -14,6 +14,7 @@ from helpers.snake import Snake
 from helpers import neuralNetwork as nn
 from helpers import geneticAlgorithm as ga 
 import os
+from datetime import datetime
 
 
 class SnakeGameGATrain(SnakeGameGATest):
@@ -57,6 +58,10 @@ class SnakeGameGATrain(SnakeGameGATest):
 		self.game_scores = []
 		self.num_generations = 0
 
+		# Add start time of training
+		file = open("GAdata.txt", "a+")
+		file.write("******\nTraining Initialized At: " + datetime.now().strftime("%d/%m/%Y %H:%M:%S") + "\n\n")
+		file.close()
 
 	def game_over(self):
 		"""Function that restarts the game upon game over.
@@ -91,9 +96,9 @@ class SnakeGameGATrain(SnakeGameGATest):
 			file.write("Generation " + str(self.num_generations) + "\n")
 			file.write("Best Individual: " + str(best_individual) + "\n")
 			file.write("Best Fitness: " + str(best_fitness) + "\n")
-			file.write("Average Fitness:" + str(average_fitness) + "\n")
-			file.write("Average Game Score:" + str(average_game_score) + "\n\n")
-			file.write("\n")
+			file.write("Average Fitness: " + str(average_fitness) + "\n")
+			file.write("Average Game Score: " + str(average_game_score) + "\n")
+			file.write("DateTime: " + datetime.now().strftime("%d/%m/%Y %H:%M:%S") + "\n\n\n")
 			file.close()
 
 			#Every 10 generations save the population to a file in the populations folder
