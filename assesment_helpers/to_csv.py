@@ -1,8 +1,8 @@
-import csv
-
 #This script formats the "GAdata.txt" file (created by trainGeneticAlgorithm.py) as a .csv file named "clean_ga_data.csv"
 #Note: make sure "GAdata.txt" is named exactly that and is in the same directory as this script
 #Note: if "clean_ga_data.csv" already exists in this directory it will be overwritten
+
+import csv
 
 ga_data = open("GAdata.txt", "r")
 

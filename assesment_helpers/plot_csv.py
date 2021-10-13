@@ -1,8 +1,8 @@
+#This script uses seaborn to plot "clean_ga_data.csv" (aka the output from to_csv.py)
+
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
-
-#This script uses seaborn to plot "clean_ga_data.csv" (aka the output from to_csv.py)
 
 sns.set_theme(color_codes=True)
 
