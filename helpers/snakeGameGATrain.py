@@ -99,7 +99,7 @@ class SnakeGameGATrain(SnakeGameGATest):
 
 			self.game_scores = []
 
-			date_time = datetime.now().strftime("%m/%d/%Y %H:%M:%S")
+			date_time = datetime.now().strftime("[%Y-%m-%d %H:%M:%S%z (%Z)]")
 
 			#Write data about this generation to ga_data.txt
 			file = open("GAdata.txt", "a+")
