@@ -111,6 +111,7 @@ class SnakeGameGATrain(SnakeGameGATest):
 			file.write("DateTime: " + date_time + "\n\n\n")
 			file.close()
 
+			#Write the same data to a .csv
 			csv_file = open("clean_ga_data.csv", "a+")
 			csv_writer = csv.writer(csv_file)
 			csv_writer.writerow([date_time, str(self.num_generations),str(best_fitness),str(average_fitness),str(average_game_score)])
