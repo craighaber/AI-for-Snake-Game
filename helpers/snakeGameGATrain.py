@@ -61,7 +61,7 @@ class SnakeGameGATrain(SnakeGameGATest):
 
 		# Add start time of training
 		file = open("GAdata.txt", "a+")
-		file.write("******\nTraining Initialized At: " + datetime.now().strftime("%m/%d/%Y %H:%M:%S") + "\n\n")
+		file.write("******\nTraining Initialized At: " + datetime.now().strftime("[%Y-%m-%d %H:%M:%S%z (%Z)]") + "\n\n")
 		file.close()
 
 		if(not os.path.exists("clean_ga_data.csv")):
@@ -99,7 +99,7 @@ class SnakeGameGATrain(SnakeGameGATest):
 
 			self.game_scores = []
 
-			date_time = datetime.now().strftime("%m/%d/%Y %H:%M:%S")
+			date_time = datetime.now().strftime("[%Y-%m-%d %H:%M:%S%z (%Z)]")
 
 			#Write data about this generation to ga_data.txt
 			file = open("GAdata.txt", "a+")
