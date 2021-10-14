@@ -64,6 +64,7 @@ class SnakeGameGATrain(SnakeGameGATest):
 		file.write("******\nTraining Initialized At: " + datetime.now().strftime("[%Y-%m-%d %H:%M:%S%z (%Z)]") + "\n\n")
 		file.close()
 
+		# Create column headings if the file doesn't exist
 		if(not os.path.exists("ga_data.csv")):
 			csv_file = open("ga_data.csv", "w")
 			csv_writer = csv.writer(csv_file)
