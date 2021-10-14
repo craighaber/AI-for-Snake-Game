@@ -1,14 +1,14 @@
-#This script formats the "GAdata.txt" file (created by trainGeneticAlgorithm.py) as a .csv file named "clean_ga_data.csv"
+#This script formats the "GAdata.txt" file (created by trainGeneticAlgorithm.py) as a .csv file named "ga_data.csv"
 #Note: make sure "GAdata.txt" is named exactly that and is in the same directory as this script
-#Note: if "clean_ga_data.csv" already exists in this directory it will be overwritten
+#Note: if "ga_data.csv" already exists in this directory it will be overwritten
 
 import csv
 
 ga_data = open("GAdata.txt", "r")
 
-clean_ga_data = open("clean_ga_data.csv", "w")
+csv_ga_data = open("ga_data.csv", "w")
 
-csv_writer = csv.writer(clean_ga_data)
+csv_writer = csv.writer(csv_ga_data)
 csv_writer.writerow(["Generation", "Best Fitness", "Average Fitness", "Average Score"])
 
 line = ga_data.readline()
@@ -38,4 +38,4 @@ while(line):
     line = ga_data.readline() #iterate
 
 ga_data.close()
-clean_ga_data.close()
+csv_ga_data.close()

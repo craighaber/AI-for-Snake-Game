@@ -1,4 +1,4 @@
-#This script uses seaborn to plot "clean_ga_data.csv" (aka the output from to_csv.py)
+#This script uses seaborn to plot "ga_data.csv" (aka the output from to_csv.py)
 
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -7,7 +7,7 @@ import argparse
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument("--csv_filename", nargs='?', type=str, default="../clean_ga_data.csv")
+    parser.add_argument("--csv_filename", nargs='?', type=str, default="../ga_data.csv")
     parser.add_argument("--figure_filename", nargs='?', type=str, default="")
     args = parser.parse_args()
     

@@ -64,8 +64,8 @@ class SnakeGameGATrain(SnakeGameGATest):
 		file.write("******\nTraining Initialized At: " + datetime.now().strftime("[%Y-%m-%d %H:%M:%S%z (%Z)]") + "\n\n")
 		file.close()
 
-		if(not os.path.exists("clean_ga_data.csv")):
-			csv_file = open("clean_ga_data.csv", "w")
+		if(not os.path.exists("ga_data.csv")):
+			csv_file = open("ga_data.csv", "w")
 			csv_writer = csv.writer(csv_file)
 			csv_writer.writerow(["Date/Time","Generation","Best Fitness","Average Fitness","Average Score"])
 			csv_file.close()
@@ -112,7 +112,7 @@ class SnakeGameGATrain(SnakeGameGATest):
 			file.close()
 
 			#Write the same data to a .csv
-			csv_file = open("clean_ga_data.csv", "a+")
+			csv_file = open("ga_data.csv", "a+")
 			csv_writer = csv.writer(csv_file)
 			csv_writer.writerow([date_time, str(self.num_generations),str(best_fitness),str(average_fitness),str(average_game_score)])
 			csv_file.close()
