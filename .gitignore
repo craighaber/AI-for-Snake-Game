@@ -18,6 +18,7 @@ helpers/__pycache__/snakeGame.cpython-39.pyc
 helpers/__pycache__/snakeGameGATest.cpython-39.pyc
 helpers/__pycache__/snakeGameGATrain.cpython-39.pyc
 .Rhistory
+.DS_Store
 GAdata.txt
 ga_data.csv
 assessment_helpers/GAdata.txt
