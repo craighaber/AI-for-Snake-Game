@@ -61,11 +61,12 @@ class SnakeGameGATrain(SnakeGameGATest):
 
 		# Add start time of training
 		file = open("GAdata.txt", "a+")
-		file.write("******\nTraining Initialized At: " + datetime.now().strftime("%m/%d/%Y %H:%M:%S") + "\n\n")
+		file.write("******\nTraining Initialized At: " + datetime.now().strftime("[%Y-%m-%d %H:%M:%S%z (%Z)]") + "\n\n")
 		file.close()
 
-		if(not os.path.exists("clean_ga_data.csv")):
-			csv_file = open("clean_ga_data.csv", "w")
+		# Create column headings if the file doesn't exist
+		if(not os.path.exists("ga_data.csv")):
+			csv_file = open("ga_data.csv", "w")
 			csv_writer = csv.writer(csv_file)
 			csv_writer.writerow(["Date/Time","Generation","Best Fitness","Average Fitness","Average Score","High Score","Generation High Score"])
 			csv_file.close()
@@ -99,7 +100,7 @@ class SnakeGameGATrain(SnakeGameGATest):
 
 			self.game_scores = []
 
-			date_time = datetime.now().strftime("%m/%d/%Y %H:%M:%S")
+			date_time = datetime.now().strftime("[%Y-%m-%d %H:%M:%S%z (%Z)]")
 
 			#Write data about this generation to ga_data.txt
 			file = open("GAdata.txt", "a+")
@@ -111,8 +112,8 @@ class SnakeGameGATrain(SnakeGameGATest):
 			file.write("DateTime: " + date_time + "\n\n\n")
 			file.close()
 
-			#Write the same data to a .csv
-			csv_file = open("clean_ga_data.csv", "a+")
+			#Write data about this generation to ga_data.csv
+			csv_file = open("ga_data.csv", "a+")
 			csv_writer = csv.writer(csv_file)
 			csv_writer.writerow([date_time, str(self.num_generations),str(best_fitness),str(average_fitness),str(average_game_score), str(self.high_score), str(high_score_per_cur_gen)])
 			csv_file.close()
