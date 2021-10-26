@@ -16,12 +16,15 @@ except ImportError as e:
 class SnakeEnv(gym.Env):
     metadata = {'render.modes': ['human']}
 
-    def __init__(self, grid_size=[15,15], unit_size=10, unit_gap=1, snake_size=3, n_snakes=1, n_foods=1, random_init=True):
+    def __init__(self):
         fps = 3000
         self.game = SnakeGameGym(fps)
 
         self.action_space = spaces.Discrete(4)
-        pygame.font.init()        
+        self.observation_space = spaces.Box(low=0, high=3, shape=(self.game.cols, self.game.rows, 1), dtype=int)
+        pygame.font.init()   
+
+        self.viewer = None     
 
     def step(self, action):
         # Check to make sure action is valid
@@ -56,8 +59,25 @@ class SnakeEnv(gym.Env):
         
 
 
-    def render(self, mode='human', close=False, frame_speed=.1):
-        pass
+    def render(self, mode='human'):
+        observation = self.game.get_board()
+
+        if mode == "array":
+            return observation
+
+        elif mode == "human":
+            if self.viewer is None:
+                from gym.envs.classic_control import rendering
+
+                self.viewer = rendering.SimpleImageViewer()
+
+            # FIXME(jackdavidweber): seems like this does not work with only 1 channel-- look at documentation
+            self.viewer.imshow(observation)
+            return self.viewer.isopen
+
+        else:
+            # Will raise an appropriate exception
+            return super().render(mode=mode)
 
     def seed(self, x):
         pass

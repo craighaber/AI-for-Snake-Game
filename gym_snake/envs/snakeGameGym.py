@@ -9,6 +9,7 @@
 import pygame
 import random
 import collections
+import numpy as np
 from gym_snake.envs.snakeGame import SnakeGame
 from gym_snake.envs.snake import Snake
 
@@ -40,10 +41,40 @@ class SnakeGameGym(SnakeGame):
 		Uses sefl.rows, self.cols, self.snake, and self.fruit_pos in order
 		to create a list representation of the board
 		0 is empty space
-		1 is space with snake body in it
-		2 is space with snake head in itß
-		3 is space with fruit in it
+		1 is space with fruit in it
+		2 is space with snake body in it
+		3 is space with snake head
 		"""
+		# Initializes empty board
+		board = np.zeros([self.rows, self.cols, 1], dtype=int)  # FIXME: make 1 cleaner
+
+		# Add Fruit
+		fruit_row = self.fruit_pos[0]
+		fruit_col = self.fruit_pos[1]
+		board[fruit_row][fruit_col] = 1
+
+		# Add Snake to Board
+		for i in range(len(self.snake.body)):
+			body_pos = self.snake.body[i]
+			
+			# Add Snake Head
+			if i == 0:
+				board[body_pos[0]][body_pos[1]] = 3
+			
+			# Add Snake Body
+			else:
+				board[body_pos[0]][body_pos[1]] = 2
+
+		return board
+
+		
+
+
+
+
+
+
+
 		return (self.snake, self.fruit_pos, self.rows)
 
 	def move_snake(self, action):
