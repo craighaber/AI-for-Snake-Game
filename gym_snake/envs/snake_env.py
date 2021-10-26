@@ -5,7 +5,7 @@ from gym.utils import seeding
 # from gym_snake.envs.snake import Controller, Discrete
 import pygame
 from gym_snake.envs.snakeGameGym import *
-
+import matplotlib.pyplot as plt
 
 try:
     import matplotlib.pyplot as plt
@@ -21,10 +21,9 @@ class SnakeEnv(gym.Env):
         self.game = SnakeGameGym(fps)
 
         self.action_space = spaces.Discrete(4)
-        self.observation_space = spaces.Box(low=0, high=3, shape=(self.game.cols, self.game.rows, 1), dtype=int)
+        self.observation_space = spaces.Box(low=0, high=3, shape=(self.game.cols, self.game.rows), dtype=int)
         pygame.font.init()   
 
-        self.viewer = None     
 
     def step(self, action):
         # Check to make sure action is valid
@@ -49,7 +48,8 @@ class SnakeEnv(gym.Env):
         
         self.game.redraw_window()
 
-        info = None
+        info = {"episode": None}  # FIXME: Figure out what to do with info. stable_baseline3 seems to require episode object
+
         return observation, rewards, done, info
 
     def reset(self):
@@ -66,14 +66,9 @@ class SnakeEnv(gym.Env):
             return observation
 
         elif mode == "human":
-            if self.viewer is None:
-                from gym.envs.classic_control import rendering
+            p = plt.imshow(observation)
 
-                self.viewer = rendering.SimpleImageViewer()
-
-            # FIXME(jackdavidweber): seems like this does not work with only 1 channel-- look at documentation
-            self.viewer.imshow(observation)
-            return self.viewer.isopen
+            return p.figure
 
         else:
             # Will raise an appropriate exception

@@ -46,7 +46,7 @@ class SnakeGameGym(SnakeGame):
 		3 is space with snake head
 		"""
 		# Initializes empty board
-		board = np.zeros([self.rows, self.cols, 1], dtype=int)  # FIXME: make 1 cleaner
+		board = np.zeros([self.rows, self.cols], dtype=int)
 
 		# Add Fruit
 		fruit_row = self.fruit_pos[0]
