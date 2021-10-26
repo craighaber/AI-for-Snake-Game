@@ -16,7 +16,7 @@ class Snake():
 	Attributes:
 		self.rows: The number of rows in the grid of the game
 		self.cols: The number of columns in the grid of the game
-		self.body: A list of poisitions in the grid of the Snake's body
+		self.body: A list of positions in the grid of the Snake's body
 		self.directions: A double-ended queue corresponding to self.body,
 		representing each direction each body part will move next.
 	"""

@@ -23,7 +23,7 @@
 #*********************************************************************************
 
 import pygame
-from helpers.snakeGame import *
+from gym_snake.envs.snakeGame import *
 
 def main():
 	"""Function to play the Snake Game."""
