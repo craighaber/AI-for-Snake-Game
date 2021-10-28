@@ -24,7 +24,7 @@ class SnakeEnv(gym.Env):
         pygame.font.init()   
 
 
-    def step(self, action: spaces.Discrete(4)) -> tuple(ndarray, int, bool, dict(str, None)):
+    def step(self, action: spaces.Discrete(4)) -> tuple:
         # Check to make sure action is valid
         err_msg = "%r (%s) invalid" % (action, type(action))
         assert self.action_space.contains(action), err_msg
