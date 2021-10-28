@@ -36,6 +36,9 @@ class SnakeEnv(gym.Env):
         
         self.game.move_snake(action)
         rewards = self.game.check_collisions()
+
+        if rewards == 1:
+            self.game.respond_to_fruit_consumption() #FIXME: @jackdavidweber pick up here
         
         done = self.game.restart
 

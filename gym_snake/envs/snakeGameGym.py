@@ -73,6 +73,20 @@ class SnakeGameGym(SnakeGame):
 
 		self.snake.update_body_positions()
 
+	def respond_to_fruit_consumption(self) -> int:
+		"""
+		Function that extends a snake, generates new snake tail block and fruit,
+		and updates/returns the new score
+		"""
+		#Add the new body square to the tail of the snake
+		self.snake.extend_snake()
+		#Generate a new fruit in a random position
+		self.generate_fruit()
+		#Update score
+		self.score += 1
+
+		return self.score
+
 	def check_collisions(self) -> int:
 		"""
 		Function that consecutively calls all the functions that detect collisions
@@ -100,12 +114,6 @@ class SnakeGameGym(SnakeGame):
 		"""
 		#If we found a fruit
 		if self.snake.body[0] == self.fruit_pos:
-			#Add the new body square to the tail of the snake
-			self.snake.extend_snake()
-			#Generate a new fruit in a random position
-			self.generate_fruit()
-
-			self.score += 1
 			return True
 		
 		return False
@@ -121,7 +129,6 @@ class SnakeGameGym(SnakeGame):
 
 		#If there is a wall collision, game over
 		if head_x == self.cols or head_y == self.rows or head_x < 0 or head_y < 0:
-			self.game_over()
 			return True
 		
 		return False
@@ -137,10 +144,6 @@ class SnakeGameGym(SnakeGame):
 
 			#Check for head collision with rest of snake body
 			if head in body_without_head:
-				self.game_over()
 				return True
 
 		return False
-
-
-
