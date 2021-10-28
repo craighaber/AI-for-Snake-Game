@@ -17,6 +17,7 @@ class SnakeEnv(gym.Env):
 
     def __init__(self):
         fps = 3000
+        self.viewer = None
         self.game = SnakeGameGym(fps)
 
         self.action_space = spaces.Discrete(4)
@@ -78,13 +79,31 @@ class SnakeEnv(gym.Env):
 
         #Graphical
         elif mode == "human":
-            p = plt.imshow(observation)
+            if self.viewer is None:
+                from gym.envs.classic_control import rendering
 
-            return p.figure
+                self.viewer = rendering.SimpleImageViewer()
+
+            # Create three channel array where each channel is same size as observation
+            num_channels = 3
+            observation_grey = np.zeros(((observation.shape[0], observation.shape[1], num_channels)))
+            
+            # For each channel, set pixel values based on scaled observation
+            scaled_observation = observation / observation.max()
+            for channel_i in range(num_channels):
+                observation_grey[:, :, channel_i] = scaled_observation
+
+            self.viewer.imshow(observation_grey)
+            return self.viewer.isopen
 
         else:
             # Will raise an appropriate exception
             return super().render(mode=mode)
+
+    def close(self) -> None:
+        if self.viewer is not None:
+            self.viewer.close()
+            self.viewer = None
 
     def seed(self, x):
         """
