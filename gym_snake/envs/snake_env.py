@@ -1,15 +1,14 @@
-import os, subprocess, time, signal
 import gym
-from gym import error, spaces, utils
-from gym.utils import seeding
-# from gym_snake.envs.snake import Controller, Discrete
 import pygame
+from typing import Union
+from gym import error, spaces
+from gym.utils import seeding
+from numpy import ndarray
+from numpy.lib.index_tricks import nd_grid
 from gym_snake.envs.snakeGameGym import *
-import matplotlib.pyplot as plt
 
 try:
     import matplotlib.pyplot as plt
-    import matplotlib
 except ImportError as e:
     raise error.DependencyNotInstalled("{}. (HINT: see matplotlib documentation for installation https://matplotlib.org/faq/installing_faq.html#installation".format(e))
 
@@ -25,7 +24,7 @@ class SnakeEnv(gym.Env):
         pygame.font.init()   
 
 
-    def step(self, action):
+    def step(self, action: spaces.Discrete(4)) -> tuple(ndarray, int, bool, dict(str, None)):
         # Check to make sure action is valid
         err_msg = "%r (%s) invalid" % (action, type(action))
         assert self.action_space.contains(action), err_msg
@@ -52,19 +51,29 @@ class SnakeEnv(gym.Env):
 
         return observation, rewards, done, info
 
-    def reset(self):
+    def reset(self) -> ndarray:
+        """
+        Function that collects the game board observation, ends the game,
+        and returns the observation.
+        """
         observation = self.game.get_board()
         self.game.game_over()
+
         return observation
         
+    def render(self, mode='human') -> Union[ndarray, None]:
+        """
+        Function that renders the training process of the Gym env.
 
-
-    def render(self, mode='human'):
+        Available modes offer graphical or non-graphical training
+        """
         observation = self.game.get_board()
 
+        #Non-graphical
         if mode == "array":
             return observation
 
+        #Graphical
         elif mode == "human":
             p = plt.imshow(observation)
 
@@ -75,4 +84,7 @@ class SnakeEnv(gym.Env):
             return super().render(mode=mode)
 
     def seed(self, x):
+        """
+        FIXME: Read Gym docs on how seed should be used for custom envs and implement.
+        """
         pass
