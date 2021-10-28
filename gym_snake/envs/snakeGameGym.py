@@ -16,7 +16,7 @@ class SnakeGameGym(SnakeGame):
 	Inherits the SankeGame class that runs the Snake Game.
 	"""
 
-	def __init__(self, fps):
+	def __init__(self, fps: int):
 		"""
 		Initializes the SnakeGameGATest class.
 		"""
