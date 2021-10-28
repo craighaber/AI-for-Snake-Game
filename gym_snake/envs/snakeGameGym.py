@@ -29,6 +29,18 @@ class SnakeGameGym(SnakeGame):
 
 		super().__init__(fps)
 	
+	def pos_on_board(self, pos):
+		# If row index is less than 0 or greater than number of rows, pos is not on board
+		if pos[0] < 0 or pos[0] >= self.rows:
+			return False
+
+		# If col index is less than 0 or greater than number of rows, pos is not on board
+		if pos[1] < 0 or pos[1] >= self.cols:
+			return False		
+
+		# Otherwise, pos is on board
+		return True
+
 	def get_board(self) -> np.ndarray:
 		"""
 		Uses sefl.rows, self.cols, self.snake, and self.fruit_pos in order
@@ -48,15 +60,20 @@ class SnakeGameGym(SnakeGame):
 
 		# Add Snake to Board
 		for i in range(len(self.snake.body)):
-			body_pos = self.snake.body[i]
+			pos = self.snake.body[i]
 			
+			# If body position is outside of the board, do not add this to board representation
+			if not self.pos_on_board(pos):
+				# FIXME: figure out a better way to represent this condition
+				pass
+
 			# Add Snake Head
-			if i == 0:
-				board[body_pos[0]][body_pos[1]] = 3
+			elif i == 0:
+				board[pos[0]][pos[1]] = 3
 			
 			# Add rest of Snake Body
 			else:
-				board[body_pos[0]][body_pos[1]] = 2
+				board[pos[0]][pos[1]] = 2
 
 		return board
 
