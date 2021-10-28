@@ -30,24 +30,21 @@ class SnakeEnv(gym.Env):
         err_msg = "%r (%s) invalid" % (action, type(action))
         assert self.action_space.contains(action), err_msg
 
-        # Get current Observation
+        # Play one frame of Snake Game
+        # If there was a fruit collision during last frame, move the fruit.
+        if self.game.check_fruit_collision():
+            self.game.respond_to_fruit_consumption() #FIXME: @jackdavidweber pick up here
+        self.game.clock.tick(self.game.fps)
+        self.game.move_snake(action)
+    
+        # Get observation after move
         observation = self.game.get_board()
 
-        self.game.clock.tick(self.game.fps)
-        
-        self.game.move_snake(action)
+        # Get rewards
         rewards = self.game.check_collisions()
 
-        if rewards == 1:
-            self.game.respond_to_fruit_consumption() #FIXME: @jackdavidweber pick up here
-        
-        done = self.game.restart
-
-        if self.game.restart == True:
-            #  FIXME: restart is used to indicate whether game was forced over during
-            # self.game.check_collisions(). This seems to be a non-ideal way of achieving this.
-            self.game.restart = False
-            # continue FIXME: this was within a loop originally
+        # Game is over if wall collision or body collision occurred. TODO: add end done for time limit
+        done = self.game.check_wall_collision() or self.game.check_body_collision()
         
         self.game.redraw_window()
 
@@ -62,6 +59,7 @@ class SnakeEnv(gym.Env):
         """
         observation = self.game.get_board()
         self.game.game_over()
+        # TODO: make sure there's nothing we need to do with self.restart
 
         return observation
         
@@ -84,16 +82,18 @@ class SnakeEnv(gym.Env):
 
                 self.viewer = rendering.SimpleImageViewer()
 
+            # Stretches array since this is not done by viewer https://stackoverflow.com/a/4227280/11892023
+            im = np.repeat(np.repeat(observation,100, axis=0), 100, axis=1)
+            
             # Create three channel array where each channel is same size as observation
             num_channels = 3
-            observation_grey = np.zeros(((observation.shape[0], observation.shape[1], num_channels)))
+            im_grey = np.zeros(((im.shape[0], im.shape[1], num_channels)))
             
             # For each channel, set pixel values based on scaled observation
-            scaled_observation = observation / observation.max()
             for channel_i in range(num_channels):
-                observation_grey[:, :, channel_i] = scaled_observation
+                im_grey[:, :, channel_i] = (im / im.max())*255
 
-            self.viewer.imshow(observation_grey)
+            self.viewer.imshow(im_grey)
             return self.viewer.isopen
 
         else:
