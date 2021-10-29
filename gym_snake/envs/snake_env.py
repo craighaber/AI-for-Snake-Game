@@ -1,16 +1,10 @@
 import gym
 import pygame
 from typing import Union
-from gym import error, spaces
-from gym.utils import seeding
+from gym import spaces
 from numpy import ndarray
-from numpy.lib.index_tricks import nd_grid
 from gym_snake.envs.snakeGameGym import *
 
-try:
-    import matplotlib.pyplot as plt
-except ImportError as e:
-    raise error.DependencyNotInstalled("{}. (HINT: see matplotlib documentation for installation https://matplotlib.org/faq/installing_faq.html#installation".format(e))
 
 class SnakeEnv(gym.Env):
     metadata = {'render.modes': ['human']}
@@ -59,8 +53,11 @@ class SnakeEnv(gym.Env):
         """
         observation = self.game.get_board()
         self.game.game_over()
-        # TODO: make sure there's nothing we need to do with self.restart
 
+        # game_over sets restart to  true. It then needs to be reset to false. 
+        # FIXME: doesn't seem like restart is necessary
+        self.game.restart = False
+        
         return observation
         
     def render(self, mode='human') -> Union[ndarray, None]:
@@ -68,6 +65,9 @@ class SnakeEnv(gym.Env):
         Function that renders the training process of the Gym env.
 
         Available modes offer graphical or non-graphical training
+
+        NOTE: As of now, this render function is NOT working. Evidently,
+        SimpleImageViewer is not that simple
         """
         observation = self.game.get_board()
 

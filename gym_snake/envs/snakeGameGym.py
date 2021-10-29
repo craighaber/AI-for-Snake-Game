@@ -108,11 +108,6 @@ class SnakeGameGym(SnakeGame):
 		"""
 		Function that consecutively calls all the functions that detect collisions
 		Returns a reward based on these collisions
-
-		FIXME: 
-			Currently, part of checking collisions is also resetting the game
-			Seems like we should disentangle these two things. First check collision, report whether collision
-			occurred, and then afterwards reset the board
 		"""
 		fruit_collision = self.check_fruit_collision()
 		wall_collision = self.check_wall_collision()
