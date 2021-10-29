@@ -27,7 +27,7 @@ class SnakeEnv(gym.Env):
         # Play one frame of Snake Game
         # If there was a fruit collision during last frame, move the fruit.
         if self.game.check_fruit_collision():
-            self.game.respond_to_fruit_consumption() #FIXME: @jackdavidweber pick up here
+            self.game.respond_to_fruit_consumption()
         self.game.clock.tick(self.game.fps)
         self.game.move_snake(action)
     
@@ -57,7 +57,7 @@ class SnakeEnv(gym.Env):
         # game_over sets restart to  true. It then needs to be reset to false. 
         # FIXME: doesn't seem like restart is necessary
         self.game.restart = False
-        
+
         return observation
         
     def render(self, mode='human') -> Union[ndarray, None]:
