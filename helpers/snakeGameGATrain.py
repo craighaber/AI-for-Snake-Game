@@ -10,7 +10,7 @@ import pygame
 import random
 import collections
 from helpers.snakeGameGATest import SnakeGameGATest
-from helpers.snake import Snake
+from gym_snake.envs.snake import Snake
 from helpers import neuralNetwork as nn
 from helpers import geneticAlgorithm as ga 
 import os

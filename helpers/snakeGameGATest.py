@@ -9,8 +9,8 @@
 import pygame
 import random
 import collections
-from helpers.snakeGame import SnakeGame
-from helpers.snake import Snake
+from gym_snake.envs.snakeGame import SnakeGame
+from gym_snake.envs.snake import Snake
 from helpers import neuralNetwork as nn
 
 class SnakeGameGATest(SnakeGame):

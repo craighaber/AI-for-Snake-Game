@@ -9,9 +9,7 @@
 import pygame
 import random
 import collections
-from helpers import neuralNetwork  as nn
-from helpers import geneticAlgorithm as ga 
-from helpers.snake import Snake
+from gym_snake.envs.snake import Snake
 
 
 class SnakeGame():
@@ -210,7 +208,7 @@ class SnakeGame():
 		"""Function that checks and handles if the snake has collided with a wall."""
 
 		#Only need to check the colisions of the head of the snake
-		head = self.snake.body[0]
+		head = self.snake.body[0]  # TODO: create head state variable
 		head_y = head[0]
 		head_x = head[1]
 
