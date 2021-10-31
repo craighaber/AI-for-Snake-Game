@@ -34,7 +34,7 @@ class SnakeGameGym(SnakeGame):
 		if pos[0] < 0 or pos[0] >= self.rows:
 			return False
 
-		# If col index is less than 0 or greater than number of rows, pos is not on board
+		# If col index is less than 0 or greater than number of cols, pos is not on board
 		if pos[1] < 0 or pos[1] >= self.cols:
 			return False		
 
