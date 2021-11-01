@@ -35,7 +35,7 @@ class SnakeGameGym(SnakeGame):
 		self.grid_start_y = 100
 		self.play = True
 		self.restart = False
-		self.fps = fps
+		self.fps = fps  # FIXME: remove fps since it doesn't seem to be doing anything
 		self.rows = 10
 		self.cols = self.rows
 		self.snake = Snake(self.rows,self.cols)
