@@ -134,11 +134,11 @@ class SnakeGameGym(SnakeGame):
 		body_collision = self.check_body_collision()		
 		
 		if fruit_collision:
-			return 10
+			return 1
 		elif wall_collision or body_collision:
-			return -10
-		else:
 			return -1
+		else:
+			return 0
 
 	def check_fruit_collision(self) -> bool:
 		"""
