@@ -29,14 +29,12 @@ class SnakeGameGym(SnakeGame):
 			2: "right",
 			3: "down",
 		}
-
+		
 		self.width = 500
 		self.height = 600
 		self.grid_start_y = 100
-		self.win = pygame.display.set_mode((self.width, self.height))
 		self.play = True
 		self.restart = False
-		self.clock = pygame.time.Clock()
 		self.fps = fps
 		self.rows = 10
 		self.cols = self.rows
@@ -45,6 +43,10 @@ class SnakeGameGym(SnakeGame):
 		self.generate_fruit()
 		self.score = 0
 		self.high_score = 0	
+
+		if self.use_pygame:
+			self.win = pygame.display.set_mode((self.width, self.height))
+			self.clock = pygame.time.Clock()
 
 
 	def pos_on_board(self, pos):
