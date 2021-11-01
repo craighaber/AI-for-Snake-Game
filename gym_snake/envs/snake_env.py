@@ -9,14 +9,17 @@ from gym_snake.envs.snakeGameGym import *
 class SnakeEnv(gym.Env):
     metadata = {'render.modes': ['human']}
 
-    def __init__(self):
+    def __init__(self, use_pygame: bool = True):
         fps = 3000
         self.viewer = None
-        self.game = SnakeGameGym(fps)
+
+        if use_pygame:
+            pygame.font.init()
+        self.game = SnakeGameGym(fps, use_pygame=use_pygame)
 
         self.action_space = spaces.Discrete(4)
         self.observation_space = spaces.Box(low=0, high=3, shape=(self.game.cols, self.game.rows), dtype=int)
-        pygame.font.init()   
+           
 
 
     def step(self, action: spaces.Discrete(4)) -> tuple:

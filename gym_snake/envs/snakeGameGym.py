@@ -8,6 +8,8 @@ import numpy as np
 from gym import spaces
 from gym_snake.envs.snakeGame import SnakeGame
 from gym_snake.envs.snake import Snake
+import pygame
+
 
 class SnakeGameGym(SnakeGame):
 	"""
@@ -16,10 +18,11 @@ class SnakeGameGym(SnakeGame):
 	Inherits the SankeGame class that runs the Snake Game.
 	"""
 
-	def __init__(self, fps: int):
+	def __init__(self, fps: int, use_pygame: bool = True):
 		"""
 		Initializes the SnakeGameGATest class.
 		"""
+		self.use_pygame = use_pygame
 		self.move_map = {
 			0: "left",
 			1: "up",
@@ -27,8 +30,23 @@ class SnakeGameGym(SnakeGame):
 			3: "down",
 		}
 
-		super().__init__(fps)
-	
+		self.width = 500
+		self.height = 600
+		self.grid_start_y = 100
+		self.win = pygame.display.set_mode((self.width, self.height))
+		self.play = True
+		self.restart = False
+		self.clock = pygame.time.Clock()
+		self.fps = fps
+		self.rows = 10
+		self.cols = self.rows
+		self.snake = Snake(self.rows,self.cols)
+		self.fruit_pos = (0,0)
+		self.generate_fruit()
+		self.score = 0
+		self.high_score = 0	
+
+
 	def pos_on_board(self, pos):
 		# If row index is less than 0 or greater than number of rows, pos is not on board
 		if pos[0] < 0 or pos[0] >= self.rows:
@@ -114,11 +132,11 @@ class SnakeGameGym(SnakeGame):
 		body_collision = self.check_body_collision()		
 		
 		if fruit_collision:
-			return 1
+			return 10
 		elif wall_collision or body_collision:
-			return -1
+			return -10
 		else:
-			return 0
+			return -1
 
 	def check_fruit_collision(self) -> bool:
 		"""
