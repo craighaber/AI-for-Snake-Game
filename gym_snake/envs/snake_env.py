@@ -9,14 +9,17 @@ from gym_snake.envs.snakeGameGym import *
 class SnakeEnv(gym.Env):
     metadata = {'render.modes': ['human']}
 
-    def __init__(self):
+    def __init__(self, use_pygame: bool = True):
         fps = 3000
         self.viewer = None
-        self.game = SnakeGameGym(fps)
+
+        if use_pygame:
+            pygame.font.init()
+        self.game = SnakeGameGym(fps, use_pygame=use_pygame)
 
         self.action_space = spaces.Discrete(4)
         self.observation_space = spaces.Box(low=0, high=3, shape=(self.game.cols, self.game.rows), dtype=int)
-        pygame.font.init()   
+           
 
 
     def step(self, action: spaces.Discrete(4)) -> tuple:
@@ -28,7 +31,7 @@ class SnakeEnv(gym.Env):
         # If there was a fruit collision during last frame, move the fruit.
         if self.game.check_fruit_collision():
             self.game.respond_to_fruit_consumption()
-        self.game.clock.tick(self.game.fps)
+        
         self.game.move_snake(action)
     
         # Get observation after move
@@ -40,7 +43,9 @@ class SnakeEnv(gym.Env):
         # Game is over if wall collision or body collision occurred. TODO: add end done for time limit
         done = self.game.check_wall_collision() or self.game.check_body_collision()
         
-        self.game.redraw_window()
+        if self.game.use_pygame:
+            self.game.clock.tick(self.game.fps)
+            self.game.redraw_window()
 
         info = {"episode": None}  # FIXME: Figure out what to do with info. stable_baseline3 seems to require episode object
 
