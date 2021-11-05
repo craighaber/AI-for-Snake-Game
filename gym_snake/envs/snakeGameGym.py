@@ -18,10 +18,15 @@ class SnakeGameGym(SnakeGame):
 	Inherits the SankeGame class that runs the Snake Game.
 	"""
 
-	def __init__(self, fps: int, use_pygame: bool = True):
+	def __init__(self,
+		board_height: int = 10, 
+		board_width:int = 10, 
+		use_pygame: bool = True, 
+		game_speed: str = "observable"):
 		"""
-		Initializes the SnakeGameGATest class.
+		Initializes the SnakeGameGym class.
 		"""
+		# SnakeGameGym specific instance variables
 		self.use_pygame = use_pygame
 		self.move_map = {
 			0: "left",
@@ -29,24 +34,35 @@ class SnakeGameGym(SnakeGame):
 			2: "right",
 			3: "down",
 		}
+		self.game_speeds = {
+			"playable": 8,
+			"observable": 25,
+			"lightspeed": 3000
+		}
 		
+		# original Snake instance variables
 		self.width = 500
 		self.height = 600
 		self.grid_start_y = 100
 		self.play = True
 		self.restart = False
-		self.fps = fps  # FIXME: remove fps since it doesn't seem to be doing anything
-		self.rows = 10
-		self.cols = self.rows
+		self.rows = board_height
+		self.cols = board_width
 		self.snake = Snake(self.rows,self.cols)
-		self.fruit_pos = (0,0)
-		self.generate_fruit()
+		self.fruit_pos = self.generate_fruit()
 		self.score = 0
 		self.high_score = 0	
 
+		# initializing pygame visualization
 		if self.use_pygame:
 			self.win = pygame.display.set_mode((self.width, self.height))
 			self.clock = pygame.time.Clock()
+
+			# set frame update speeds
+			if game_speed in self.game_speeds:
+				self.fps = self.game_speeds[game_speed]
+			else:
+				self.fps = self.game_speeds["observable"]
 
 
 	def pos_on_board(self, pos):

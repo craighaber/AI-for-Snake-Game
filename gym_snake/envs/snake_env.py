@@ -9,13 +9,20 @@ from gym_snake.envs.snakeGameGym import *
 class SnakeEnv(gym.Env):
     metadata = {'render.modes': ['human']}
 
-    def __init__(self, use_pygame: bool = True):
-        fps = 3000
+    def __init__(self, 
+        board_height: int = 10, 
+		board_width:int = 10, 
+		use_pygame: bool = True, 
+		game_speed: str = "observable"):
+        """
+        Initializes the custom Snake gym environment
+        """
         self.viewer = None
 
         if use_pygame:
             pygame.font.init()
-        self.game = SnakeGameGym(fps, use_pygame=use_pygame)
+        self.game = SnakeGameGym(board_height=board_height, board_width=board_width, 
+                                use_pygame=use_pygame, game_speed=game_speed)
 
         self.action_space = spaces.Discrete(4)
         self.observation_space = spaces.Box(low=0, high=3, shape=(self.game.cols, self.game.rows), dtype=int)
