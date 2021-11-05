@@ -68,7 +68,7 @@ class SnakeGameGATrain(SnakeGameGATest):
 		if(not os.path.exists("ga_data.csv")):
 			csv_file = open("ga_data.csv", "w")
 			csv_writer = csv.writer(csv_file)
-			csv_writer.writerow(["Date/Time","Generation","Best Fitness","Average Fitness","Average Score"])
+			csv_writer.writerow(["Date/Time","Generation","Best Fitness","Average Fitness","Average Score","High Score","Generation High Score"])
 			csv_file.close()
 
 
@@ -115,7 +115,7 @@ class SnakeGameGATrain(SnakeGameGATest):
 			#Write data about this generation to ga_data.csv
 			csv_file = open("ga_data.csv", "a+")
 			csv_writer = csv.writer(csv_file)
-			csv_writer.writerow([date_time, str(self.num_generations),str(best_fitness),str(average_fitness),str(average_game_score)])
+			csv_writer.writerow([date_time, str(self.num_generations),str(best_fitness),str(average_fitness),str(average_game_score), str(self.high_score), str(high_score_per_cur_gen)])
 			csv_file.close()
 
 			#Every 10 generations save the population to a file in the populations folder
