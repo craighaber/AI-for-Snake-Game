@@ -15,14 +15,18 @@ class SnakeEnv(gym.Env):
 		use_pygame: bool = True, 
 		game_speed: str = "observable"):
         """
-        Initializes the custom Snake gym environment
+        Initializes the custom Snake gym environment.
+
+		board_height: the number of rows on the game board. defaults to 10.
+		board_width: the number of columns on the game board. defaults to 10.
+		use_pygame: boolean flag for whether or not to visualize the environment with pygame. defaults to True.
+		game_speed: sets the speed of the game, valid options are 'playable', 'observable', and 'lightspeed'. defaults to 'observable'
         """
         self.viewer = None
 
         if use_pygame:
             pygame.font.init()
-        self.game = SnakeGameGym(board_height=board_height, board_width=board_width, 
-                                use_pygame=use_pygame, game_speed=game_speed)
+        self.game = SnakeGameGym(board_height, board_width, use_pygame, game_speed)
 
         self.action_space = spaces.Discrete(4)
         self.observation_space = spaces.Box(low=0, high=3, shape=(self.game.cols, self.game.rows), dtype=int)
