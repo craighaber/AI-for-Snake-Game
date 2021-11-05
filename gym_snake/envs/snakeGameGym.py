@@ -124,22 +124,6 @@ class SnakeGameGym(SnakeGame):
 
 		return self.score
 
-	def check_collisions(self) -> int:
-		"""
-		Function that consecutively calls all the functions that detect collisions
-		Returns a reward based on these collisions
-		"""
-		fruit_collision = self.check_fruit_collision()
-		wall_collision = self.check_wall_collision()
-		body_collision = self.check_body_collision()		
-		
-		if fruit_collision:
-			return 1
-		elif wall_collision or body_collision:
-			return -1
-		else:
-			return 0
-
 	def check_fruit_collision(self) -> bool:
 		"""
 		Function that detects and handles if the snake has collided with a fruit.
