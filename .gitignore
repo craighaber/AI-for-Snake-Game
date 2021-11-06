@@ -20,6 +20,7 @@ helpers/__pycache__/snakeGameGATrain.cpython-39.pyc
 .Rhistory
 .DS_Store
 *.ipynb
+.ipynb_checkpoints
 .vscode
 GAdata.txt
 ga_data.csv
