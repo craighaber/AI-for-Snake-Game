@@ -17,7 +17,6 @@ import time
 import gym
 import gym_snake
 from stable_baselines3 import A2C
-from stable_baselines3.common.logger import configure
 import numpy as np
 from argparse import ArgumentParser
 from datetime import datetime
@@ -25,7 +24,7 @@ from datetime import datetime
 
 # %% [markdown]
 # # Read This First
-# This notebook is created to make it clear how we train and test the OpenAI Gym Snake. I used jupytext so that it can be run on the server as a python commandline script or as a jupyter notebook on your local machine. If you not able to run the python file in a notebook, then you probably need to [install jupytext](https://jupytext.readthedocs.io/_/downloads/en/stable/pdf/):
+# This notebook is created to make it clear how we train and test the OpenAI Gym Snake. I used jupytext so that it can be run on the server as a python commandline script or as a jupyter notebook on your local machine. If you're not able to run the python file in a notebook, then you probably need to [install jupytext](https://jupytext.readthedocs.io/_/downloads/en/stable/pdf/):
 # ```
 # pip install jupytext
 # # or
@@ -68,7 +67,7 @@ def testRL(
 ):
     # Setup
     env = gym.make(
-        'snake-v0',
+        env_name,
         use_pygame=visualize_testing
     )
     obs = env.reset()
@@ -98,7 +97,7 @@ def analyzeRL(
     if len(s_arr) > 0:
         print("High Score over all games: ", np.max(s_arr))
         print("Mean Score over all games: ", np.average(s_arr))
-        print("Median Score over all games: ", np.average(s_arr))    
+        print("Median Score over all games: ", np.median(s_arr))    
 
 
 # %% [markdown]
