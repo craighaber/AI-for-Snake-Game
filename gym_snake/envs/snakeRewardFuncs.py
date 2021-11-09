@@ -5,7 +5,7 @@ This file is used to store reward functions to be used in snake_env.py
 def basic_reward_func(
     did_consume_fruit: bool,
     did_collide_wall: bool,
-    did_collide_body: bool) -> int:
+    did_collide_body: bool) -> float:
     """
     Basic reward function that rewards the snake for consuming a fruit, 
     punishes it for colliding with itself or a wall, and rewards nothing otherwise.
