@@ -50,8 +50,8 @@ class SnakeGameGym(SnakeGame):
 			self.clock = pygame.time.Clock()
 
 	def make_snake_rand_pos(self):
-		rand_row = random.randn(0, self.rows)
-		rand_col = random.randn(0, self.cols)
+		rand_row = random.randrange(0, self.rows)
+		rand_col = random.randrange(0, self.cols)
 
 		return (rand_row, rand_col)
 
