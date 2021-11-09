@@ -57,7 +57,12 @@ class SnakeEnv(gym.Env):
         observation = self.game.get_board()
 
         # Get rewards based on collision status
-        rewards = self.reward_func(did_consume_fruit, did_collide_wall, did_collide_body)
+        reward_dict = {
+            "did_consume_fruit":did_consume_fruit,
+            "did_collide_wall": did_collide_wall,
+            "did_collide_body": did_collide_body,
+        }
+        rewards = self.reward_func(reward_dict)
 
         # Game is over if wall collision or body collision occurred. TODO: add end done for time limit
         done = did_collide_wall or did_collide_body
