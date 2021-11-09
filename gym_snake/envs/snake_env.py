@@ -13,14 +13,14 @@ class SnakeEnv(gym.Env):
 
     def __init__(self, 
         use_pygame: bool = True, 
-        reward_func: Callable[[bool, bool, bool], int] = basic_reward_func):
+        reward_func: Callable[..., int] = basic_reward_func):
         """
         Function that initializes the snake environment.
 
         use_pygame: a boolean flage representing whether or not to render the game with pygame
-        reward_func: a function that takes boolean inputs corresponding to whether the snake consumed a fruit,
-                     collided with a wall, or collided with itself and returns a reward integer value based on
-                     the snake's collision status. Defaults to snakeRewardFunc.basic_reward_func()
+        reward_func: a function that takes any inputs (representing important game states) and returns an 
+                     int output representing a reward for the snake agent based on the inputs. 
+                     Defaults to snakeRewardFunc.basic_reward_func()
         """
         fps = 3000
         self.viewer = None
