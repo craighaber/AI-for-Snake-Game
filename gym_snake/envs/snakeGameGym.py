@@ -4,10 +4,11 @@
 #to observe the best agents that were trained with the reinforcement learning algorithm.
 #*************************************************************************************
 
+import random
 import numpy as np
 from gym import spaces
 from gym_snake.envs.snakeGame import SnakeGame
-from gym_snake.envs.snake import Snake
+from gym_snake.envs.snakeGym import SnakeGym
 import pygame
 
 
@@ -38,7 +39,7 @@ class SnakeGameGym(SnakeGame):
 		self.fps = fps  # FIXME: remove fps since it doesn't seem to be doing anything
 		self.rows = 10
 		self.cols = self.rows
-		self.snake = Snake(self.rows,self.cols)
+		self.snake = SnakeGym(self.rows,self.cols, self.make_snake_rand_pos())
 		self.fruit_pos = (0,0)
 		self.generate_fruit()
 		self.score = 0
@@ -48,6 +49,11 @@ class SnakeGameGym(SnakeGame):
 			self.win = pygame.display.set_mode((self.width, self.height))
 			self.clock = pygame.time.Clock()
 
+	def make_snake_rand_pos(self):
+		rand_row = random.randn(0, self.rows)
+		rand_col = random.randn(0, self.cols)
+
+		return (rand_row, rand_col)
 
 	def pos_on_board(self, pos):
 		# If row index is less than 0 or greater than number of rows, pos is not on board
@@ -179,3 +185,13 @@ class SnakeGameGym(SnakeGame):
 				return True
 
 		return False
+
+	def game_over(self):
+		"""Function that restarts the game upon game over."""
+
+		self.snake = SnakeGym(self.rows,self.cols, self.make_snake_rand_pos())
+		self.generate_fruit()
+		self.restart = True
+		if self.score > self.high_score:
+			self.high_score = self.score
+		self.score = 0
