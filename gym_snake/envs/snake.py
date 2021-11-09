@@ -6,6 +6,7 @@
 #*********************************************************************************
 
 import collections
+import random
 
 class Snake():
 
@@ -38,8 +39,8 @@ class Snake():
 			the format of (row, column).
 
 		"""
-		snake_row = self.rows//2
-		snake_col = 1
+		snake_row = random.randrange(0,self.rows)
+		snake_col = random.randrange(0,self.cols)
 
 		return (snake_row,snake_col)
 
