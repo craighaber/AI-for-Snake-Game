@@ -1,9 +1,11 @@
 import gym
 import pygame
 from typing import Union
+from typing import Callable
 from gym import spaces
 from numpy import ndarray
 from gym_snake.envs.snakeGameGym import *
+from gym_snake.envs.snakeRewardFuncs import basic_reward_func
 
 
 class SnakeEnv(gym.Env):
@@ -13,7 +15,8 @@ class SnakeEnv(gym.Env):
         board_height: int = 10, 
 		board_width:int = 10, 
 		use_pygame: bool = True, 
-		fps: int = 25):
+		fps: int = 25,
+        reward_func: Callable[..., float] = basic_reward_func):
         """
         Initializes the custom Snake gym environment.
 
@@ -21,7 +24,11 @@ class SnakeEnv(gym.Env):
 		board_width: the number of columns on the game board. defaults to 10.
 		use_pygame: boolean flag for whether or not to visualize the environment with pygame. defaults to True.
 		fps: sets the speed of the game in frames per second.
+        reward_func: a function that takes any inputs (representing important game states) and returns an 
+                     int output representing a reward for the snake agent based on the inputs. 
+                     Defaults to snakeRewardFunc.basic_reward_func()
         """
+        fps = 3000
         self.viewer = None
 
         if use_pygame:
@@ -29,37 +36,54 @@ class SnakeEnv(gym.Env):
             self.fps = fps
         self.game = SnakeGameGym(board_height, board_width, use_pygame, fps)
 
+        self.reward_func = reward_func
         self.action_space = spaces.Discrete(4)
         self.observation_space = spaces.Box(low=0, high=3, shape=(self.game.cols, self.game.rows), dtype=int)
            
 
 
     def step(self, action: spaces.Discrete(4)) -> tuple:
+        """
+        Function that is called at every update in the game state (i.e., every move)
+
+        action: a discrete set (0,1,2,3) that corresponds to a movement direction for the snake
+        """
         # Check to make sure action is valid
         err_msg = "%r (%s) invalid" % (action, type(action))
         assert self.action_space.contains(action), err_msg
 
         # Play one frame of Snake Game
-        # If there was a fruit collision during last frame, move the fruit.
-        if self.game.check_fruit_collision():
-            self.game.respond_to_fruit_consumption()
-        
         self.game.move_snake(action)
-    
+
+        # check collisions after move
+        did_consume_fruit = self.game.check_fruit_collision()
+        did_collide_wall = self.game.check_wall_collision()
+        did_collide_body = self.game.check_body_collision()
+
         # Get observation after move
         observation = self.game.get_board()
 
-        # Get rewards
-        rewards = self.game.check_collisions()
+        # Get rewards based on collision status
+        reward_dict = {
+            "did_consume_fruit":did_consume_fruit,
+            "did_collide_wall": did_collide_wall,
+            "did_collide_body": did_collide_body,
+        }
+        rewards = self.reward_func(reward_dict)
 
         # Game is over if wall collision or body collision occurred. TODO: add end done for time limit
-        done = self.game.check_wall_collision() or self.game.check_body_collision()
+        done = did_collide_wall or did_collide_body
+
+        # FIXME: Figure out what to do with info. stable_baseline3 seems to require episode object
+        info = {"episode": None}  
+
+        # If there was a fruit collision during last frame, move the fruit.
+        if did_consume_fruit:
+            self.game.respond_to_fruit_consumption()
         
         if self.game.use_pygame:
             self.game.clock.tick(self.fps)
             self.game.redraw_window()
-
-        info = {"episode": None}  # FIXME: Figure out what to do with info. stable_baseline3 seems to require episode object
 
         return observation, rewards, done, info
 
