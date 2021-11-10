@@ -13,20 +13,21 @@ class SnakeEnv(gym.Env):
         board_height: int = 10, 
 		board_width:int = 10, 
 		use_pygame: bool = True, 
-		game_speed: str = "observable"):
+		fps: int = 25):
         """
         Initializes the custom Snake gym environment.
 
 		board_height: the number of rows on the game board. defaults to 10.
 		board_width: the number of columns on the game board. defaults to 10.
 		use_pygame: boolean flag for whether or not to visualize the environment with pygame. defaults to True.
-		game_speed: sets the speed of the game, valid options are 'playable', 'observable', and 'lightspeed'. defaults to 'observable'
+		fps: sets the speed of the game in frames per second.
         """
         self.viewer = None
 
         if use_pygame:
             pygame.font.init()
-        self.game = SnakeGameGym(board_height, board_width, use_pygame, game_speed)
+            self.fps = fps
+        self.game = SnakeGameGym(board_height, board_width, use_pygame, fps)
 
         self.action_space = spaces.Discrete(4)
         self.observation_space = spaces.Box(low=0, high=3, shape=(self.game.cols, self.game.rows), dtype=int)
@@ -55,7 +56,7 @@ class SnakeEnv(gym.Env):
         done = self.game.check_wall_collision() or self.game.check_body_collision()
         
         if self.game.use_pygame:
-            self.game.clock.tick(self.game.fps)
+            self.game.clock.tick(self.fps)
             self.game.redraw_window()
 
         info = {"episode": None}  # FIXME: Figure out what to do with info. stable_baseline3 seems to require episode object

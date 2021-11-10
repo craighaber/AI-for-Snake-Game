@@ -21,15 +21,13 @@ class SnakeGameGym(SnakeGame):
 	def __init__(self,
 		board_height: int, 
 		board_width:int, 
-		use_pygame: bool, 
-		game_speed: str):
+		use_pygame: bool):
 		"""
 		Initializes the SnakeGameGym class.
 
 		board_height: the number of rows on the game board.
 		board_width: the number of columns on the game board.
 		use_pygame: boolean flag for whether or not to visualize the environment with pygame.
-		game_speed: sets the speed of the game, valid options are 'playable', 'observable', and 'lightspeed'.
 		"""
 		# SnakeGameGym specific instance variables
 		self.use_pygame = use_pygame
@@ -38,11 +36,6 @@ class SnakeGameGym(SnakeGame):
 			1: "up",
 			2: "right",
 			3: "down",
-		}
-		self.game_speeds = {
-			"playable": 8,
-			"observable": 25,
-			"lightspeed": 3000
 		}
 		
 		# original Snake instance variables
@@ -63,12 +56,6 @@ class SnakeGameGym(SnakeGame):
 		if self.use_pygame:
 			self.win = pygame.display.set_mode((self.width, self.height))
 			self.clock = pygame.time.Clock()
-
-			# set frame update speeds
-			if game_speed in self.game_speeds:
-				self.fps = self.game_speeds[game_speed]
-			else:
-				self.fps = self.game_speeds["observable"]
 
 
 	def pos_on_board(self, pos):
