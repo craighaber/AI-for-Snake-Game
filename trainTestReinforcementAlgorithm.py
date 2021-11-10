@@ -42,7 +42,8 @@ def trainRL(
     train_timesteps: int,
     env_name: str,
     board_height: int,
-    board_width: int, 
+    board_width: int,
+    num_allowed_moves_since_fruit: int,
     visualize_training: bool,
     visualization_fps: int, 
     reward_function: Callable[..., float]
@@ -50,7 +51,8 @@ def trainRL(
     env = gym.make(
         env_name, 
         board_height=board_height,
-        board_width=board_width, 
+        board_width=board_width,
+        num_allowed_moves_since_fruit=num_allowed_moves_since_fruit,
         use_pygame=visualize_training,
         fps=visualization_fps, 
         reward_func=reward_function
@@ -79,7 +81,8 @@ def testRL(
     test_timesteps: int,
     env_name: str,
     board_height: int,
-    board_width: int, 
+    board_width: int,
+    num_allowed_moves_since_fruit: int,
     visualize_testing: bool,
     visualization_fps: int, 
     reward_function: Callable[..., float]
@@ -89,6 +92,7 @@ def testRL(
         env_name, 
         board_height=board_height,
         board_width=board_width, 
+        num_allowed_moves_since_fruit=num_allowed_moves_since_fruit,
         use_pygame=visualize_testing,
         fps=visualization_fps, 
         reward_func=reward_function
@@ -152,6 +156,10 @@ env_name = 'snake-v0'
 board_height = 10
 board_width = 10
 
+# Set number of allowed moves without fruit consumption before ending the game.
+# Any non-poitive number corresponds to no limit.
+num_allowed_moves_since_fruit = 25
+
 # Set visualization arguments
 visualize_training = False # We don't want to visualize the training process
 visualize_testing = True # Set to true in order to see game moves in pygame. Should be false if run on server.
@@ -159,7 +167,8 @@ visualization_fps = 30
 
 # Set reward function to be used in training 
 # Reward functions are defined in snakeRewardFuncs.py
-reward_function = basic_reward_func 
+reward_function = basic_reward_func
+# reward_function = basic_reward_func_with_move_ceiling 
 
 
 # %% [markdown]
@@ -167,10 +176,10 @@ reward_function = basic_reward_func
 # To run in the notebook, uncomment the following three lines:
 
 # %%
-model = trainRL(train_timesteps, env_name, board_height, board_width, visualize_training, visualization_fps, reward_function)
-scores = testRL(model, test_timesteps, env_name, board_height, board_width, visualize_testing, visualization_fps, reward_function)
-analyzeRL(scores)
-saveRL(model)
+# model = trainRL(train_timesteps, env_name, board_height, board_width, num_allowed_moves_since_fruit, visualize_training, visualization_fps, reward_function)
+# scores = testRL(model, test_timesteps, env_name, board_height, board_width, num_allowed_moves_since_fruit, visualize_testing, visualization_fps, reward_function)
+# analyzeRL(scores)
+# saveRL(model)
 
 # %% [markdown]
 # ## Run on commandline
@@ -183,10 +192,11 @@ def main():
     aparser.add_argument("--env_name", type=str, default="snake-v0")
 
     aparser.add_argument("--train_timesteps", type=int, default=1000)
-    
     aparser.add_argument("--test_timesteps", type=int, default=100)
+
     aparser.add_argument("--board_height", type=int, default=10)
     aparser.add_argument("--board_width", type=int, default=10)
+    aparser.add_argument("--num_allowed_moves_since_fruit", type=int, default=0)
     aparser.add_argument("--visualize_training", type=bool, default=False)
     aparser.add_argument("--visualize_testing", type=bool, default=True)
     aparser.add_argument("--visualization_fps", type=int, default=30)
@@ -206,6 +216,7 @@ def main():
         args.env_name,
         args.board_height,
         args.board_width,
+        args.num_allowed_moves_since_fruit,
         args.visualize_training,
         args.visualization_fps,
         args.reward_function
@@ -218,6 +229,7 @@ def main():
         args.env_name,
         args.board_height,
         args.board_width,
+        args.num_allowed_moves_since_fruit,
         args.visualize_testing,
         args.visualization_fps,
         args.reward_function)

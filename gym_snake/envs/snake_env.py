@@ -13,7 +13,8 @@ class SnakeEnv(gym.Env):
 
     def __init__(self, 
         board_height: int = 10, 
-		board_width:int = 10, 
+		board_width:int = 10,  
+		num_allowed_moves_since_fruit: int = 0,
 		use_pygame: bool = True, 
 		fps: int = 25,
         reward_func: Callable[..., float] = basic_reward_func):
@@ -22,6 +23,8 @@ class SnakeEnv(gym.Env):
 
 		board_height: the number of rows on the game board. defaults to 10.
 		board_width: the number of columns on the game board. defaults to 10.
+        num_allowed_moves_since_fruit: number of allowed consecutive moves that do not result in fruit consumption. 
+									   Non-positive values correspond to no limit.
 		use_pygame: boolean flag for whether or not to visualize the environment with pygame. defaults to True.
 		fps: sets the speed of the game in frames per second.
         reward_func: a function that takes any inputs (representing important game states) and returns an 
@@ -33,7 +36,7 @@ class SnakeEnv(gym.Env):
         if use_pygame:
             pygame.font.init()
             self.fps = fps
-        self.game = SnakeGameGym(board_height, board_width, use_pygame)
+        self.game = SnakeGameGym(board_height, board_width, num_allowed_moves_since_fruit, use_pygame)
 
         self.reward_func = reward_func
         self.action_space = spaces.Discrete(4)
@@ -54,10 +57,16 @@ class SnakeEnv(gym.Env):
         # Play one frame of Snake Game
         self.game.move_snake(action)
 
+        # Increment necessary game states
+        self.game.increment_num_current_moves_since_fruit()
+
         # check collisions after move
         did_consume_fruit = self.game.check_fruit_collision()
         did_collide_wall = self.game.check_wall_collision()
         did_collide_body = self.game.check_body_collision()
+
+        # Check if snake is within threshold of allowable moves without consuming fruit
+        did_exceed_allowed_moves_no_fruit = not self.game.check_num_moves_since_fruit_valid()
 
         # Get observation after move
         observation = self.game.get_board()
@@ -67,11 +76,12 @@ class SnakeEnv(gym.Env):
             "did_consume_fruit":did_consume_fruit,
             "did_collide_wall": did_collide_wall,
             "did_collide_body": did_collide_body,
+            "did_exceed_allowed_moves_no_fruit": did_exceed_allowed_moves_no_fruit
         }
         rewards = self.reward_func(reward_dict)
 
-        # Game is over if wall collision or body collision occurred. TODO: add end done for time limit
-        done = did_collide_wall or did_collide_body
+        # Game is over if wall collision, body collision, or too many moves before consuming a fruit occurred.
+        done = did_collide_wall or did_collide_body or did_exceed_allowed_moves_no_fruit
 
         # FIXME: Figure out what to do with info. stable_baseline3 seems to require episode object
         info = {"episode": None}  
@@ -79,6 +89,11 @@ class SnakeEnv(gym.Env):
         # If there was a fruit collision during last frame, move the fruit.
         if did_consume_fruit:
             self.game.respond_to_fruit_consumption()
+            self.game.reset_num_current_moves_since_fruit()
+
+        # If game over, reset moves taken since consuming fruit to 0
+        if done:
+            self.game.reset_num_current_moves_since_fruit()
         
         if self.game.use_pygame:
             self.game.clock.tick(self.fps)
