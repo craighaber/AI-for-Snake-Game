@@ -28,13 +28,12 @@ class SnakeEnv(gym.Env):
                      int output representing a reward for the snake agent based on the inputs. 
                      Defaults to snakeRewardFunc.basic_reward_func()
         """
-        fps = 3000
         self.viewer = None
 
         if use_pygame:
             pygame.font.init()
             self.fps = fps
-        self.game = SnakeGameGym(board_height, board_width, use_pygame, fps)
+        self.game = SnakeGameGym(board_height, board_width, use_pygame)
 
         self.reward_func = reward_func
         self.action_space = spaces.Discrete(4)

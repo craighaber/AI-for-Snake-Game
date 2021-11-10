@@ -13,13 +13,16 @@
 # ---
 
 # %%
+import argparse
 import time
+from typing import Callable
 import gym
 import gym_snake
 from stable_baselines3 import A2C
 import numpy as np
 from argparse import ArgumentParser
 from datetime import datetime
+from gym_snake.envs.snakeRewardFuncs import *
 
 
 # %% [markdown]
@@ -36,10 +39,22 @@ from datetime import datetime
 
 # %%
 def trainRL(
-    train_timesteps= 1000,  # Number of steps to train the snake on. One step is one action for snake.
-    env_name='snake-v0',
+    train_timesteps: int,
+    env_name: str,
+    board_height: int,
+    board_width: int, 
+    visualize_training: bool,
+    visualization_fps: int, 
+    reward_function: Callable[..., float]
 ):
-    env = gym.make(env_name, use_pygame=False)  # We don't want to visualize the training process
+    env = gym.make(
+        env_name, 
+        board_height=board_height,
+        board_width=board_width, 
+        use_pygame=visualize_training,
+        fps=visualization_fps, 
+        reward_func=reward_function
+    )  
     
     # Model is defined here. This is hard to parameterize so change this code to play with different models
     model = A2C('MlpPolicy', env, verbose=1)    
@@ -61,14 +76,22 @@ def trainRL(
 # %%
 def testRL(
     model,
-    test_timesteps=1000,  # Number of steps to test the snake on. One step is one action for snake.
-    env_name='snake-v0',
-    visualize_testing= True,  # Set to true in order to see game moves in pygame. Should be false if run on server.
+    test_timesteps: int,
+    env_name: str,
+    board_height: int,
+    board_width: int, 
+    visualize_testing: bool,
+    visualization_fps: int, 
+    reward_function: Callable[..., float]
 ):
     # Setup
     env = gym.make(
-        env_name,
-        use_pygame=visualize_testing
+        env_name, 
+        board_height=board_height,
+        board_width=board_width, 
+        use_pygame=visualize_testing,
+        fps=visualization_fps, 
+        reward_func=reward_function
     )
     obs = env.reset()
     
@@ -116,14 +139,38 @@ def saveRL(
 
 
 # %% [markdown]
+# ## Initialize Game Variables
+# %%
+# Set amount of time for training/testing. One step is one action for the snake.
+train_timesteps=1000
+test_timesteps=100
+
+# Set gym environment name
+env_name = 'snake-v0'
+
+# Set board dimensions
+board_height = 10
+board_width = 10
+
+# Set visualization arguments
+visualize_training = False # We don't want to visualize the training process
+visualize_testing = True # Set to true in order to see game moves in pygame. Should be false if run on server.
+visualization_fps = 30
+
+# Set reward function to be used in training 
+# Reward functions are defined in snakeRewardFuncs.py
+reward_function = basic_reward_func 
+
+
+# %% [markdown]
 # ## Run in Notebook
 # To run in the notebook, uncomment the following three lines:
 
 # %%
-# model = trainRL()
-# scores = testRL(model)
-# analyzeRL(scores)
-# saveRL(model)
+model = trainRL(train_timesteps, env_name, board_height, board_width, visualize_training, visualization_fps, reward_function)
+scores = testRL(model, test_timesteps, env_name, board_height, board_width, visualize_testing, visualization_fps, reward_function)
+analyzeRL(scores)
+saveRL(model)
 
 # %% [markdown]
 # ## Run on commandline
@@ -138,7 +185,13 @@ def main():
     aparser.add_argument("--train_timesteps", type=int, default=1000)
     
     aparser.add_argument("--test_timesteps", type=int, default=100)
+    aparser.add_argument("--board_height", type=int, default=10)
+    aparser.add_argument("--board_width", type=int, default=10)
+    aparser.add_argument("--visualize_training", type=bool, default=False)
     aparser.add_argument("--visualize_testing", type=bool, default=True)
+    aparser.add_argument("--visualization_fps", type=int, default=30)
+
+    aparser.add_argument("--reward_function", type=Callable[..., float], default=basic_reward_func, help="function to determine how a snake agent is rewarded/punished for certain actions during training. Available functions can be found in snakeRewardFuncs.py")
     
     aparser.add_argument("--print_analysis", type=bool, default=True, help="bool to determine whether or not analysis of test scores is done")    
     
@@ -148,10 +201,26 @@ def main():
     args = aparser.parse_args()
     
     # Training
-    model = trainRL(args.train_timesteps, args.env_name)
+    model = trainRL(
+        args.train_timesteps, 
+        args.env_name,
+        args.board_height,
+        args.board_width,
+        args.visualize_training,
+        args.visualization_fps,
+        args.reward_function
+    )
     
     # Testing
-    scores = testRL(model, args.test_timesteps, args.env_name, args.visualize_testing)
+    scores = testRL(
+        model, 
+        args.test_timesteps, 
+        args.env_name,
+        args.board_height,
+        args.board_width,
+        args.visualize_testing,
+        args.visualization_fps,
+        args.reward_function)
     
     # Analysis
     if args.print_analysis:
