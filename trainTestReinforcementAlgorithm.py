@@ -22,7 +22,7 @@ from stable_baselines3 import A2C
 import numpy as np
 from argparse import ArgumentParser
 from datetime import datetime
-from gym_snake.envs.snakeRewardFuncs import * as RewardFuncs
+import gym_snake.envs.snakeRewardFuncs as RewardFuncs
 
 
 # %% [markdown]
@@ -159,7 +159,7 @@ visualization_fps = 30
 
 # Set reward function to be used in training 
 # Reward functions are defined in snakeRewardFuncs.py
-reward_function = basic_reward_func 
+reward_function = RewardFuncs.basic_reward_func 
 
 
 # %% [markdown]
@@ -191,7 +191,7 @@ def main():
     aparser.add_argument("--visualize_testing", type=bool, default=True)
     aparser.add_argument("--visualization_fps", type=int, default=30)
 
-    aparser.add_argument("--reward_function", type=Callable[..., float], default=basic_reward_func, help="function to determine how a snake agent is rewarded/punished for certain actions during training. Available functions can be found in snakeRewardFuncs.py")
+    aparser.add_argument("--reward_function", type=Callable[..., float], default=RewardFuncs.basic_reward_func, help="function to determine how a snake agent is rewarded/punished for certain actions during training. Available functions can be found in snakeRewardFuncs.py")
     
     aparser.add_argument("--print_analysis", type=bool, default=True, help="bool to determine whether or not analysis of test scores is done")    
     
