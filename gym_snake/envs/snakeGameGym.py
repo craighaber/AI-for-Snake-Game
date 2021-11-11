@@ -44,6 +44,7 @@ class SnakeGameGym(SnakeGame):
 		self.generate_fruit()
 		self.score = 0
 		self.high_score = 0
+		self.last_head_pos = self.snake.body[0]
 
 		if self.use_pygame:
 			self.win = pygame.display.set_mode((self.width, self.height))
@@ -169,6 +170,17 @@ class SnakeGameGym(SnakeGame):
 				return True
 
 		return False
+
+	def check_closer_to_fruit(self) -> bool:
+
+		head = self.snake.body[0]
+		return self.manhattan_distance(self.fruit_pos,self.last_head_pos) > self.manhattan_distance(self.fruit_pos, head)
+
+	def manhattan_distance(self, pos1, pos2) -> bool:
+		row_diff = abs(pos1[0] - pos2[0])
+		col_diff = abs(pos1[1] - pos2[1])
+
+		return row_diff + col_diff
 
 	def game_over(self):
 		"""Function that restarts the game upon game over."""

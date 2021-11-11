@@ -16,7 +16,7 @@
 import time
 import gym
 import gym_snake
-from stable_baselines3 import A2C
+from stable_baselines3 import A2C, DQN, PPO
 import numpy as np
 from argparse import ArgumentParser
 from datetime import datetime
