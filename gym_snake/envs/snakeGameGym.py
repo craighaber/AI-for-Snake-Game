@@ -49,7 +49,7 @@ class SnakeGameGym(SnakeGame):
 			self.win = pygame.display.set_mode((self.width, self.height))
 			self.clock = pygame.time.Clock()
 
-	def make_snake_rand_pos(self):
+	def get_rand_pos(self):
 		rand_row = random.randrange(0, self.rows)
 		rand_col = random.randrange(0, self.cols)
 
