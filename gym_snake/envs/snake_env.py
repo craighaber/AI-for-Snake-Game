@@ -15,7 +15,7 @@ class SnakeEnv(gym.Env):
         board_height: int = 10, 
 		board_width:int = 10, 
 		use_pygame: bool = True, 
-		fps: int = 25,
+		fps: int = 3000,
         reward_func: Callable[..., float] = basic_reward_func):
         """
         Initializes the custom Snake gym environment.

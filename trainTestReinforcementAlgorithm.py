@@ -22,7 +22,7 @@ from stable_baselines3 import A2C
 import numpy as np
 from argparse import ArgumentParser
 from datetime import datetime
-from gym_snake.envs.snakeRewardFuncs import *
+from gym_snake.envs.snakeRewardFuncs import * as RewardFuncs
 
 
 # %% [markdown]
