@@ -43,6 +43,7 @@ class SnakeGameGym(SnakeGame):
 		self.fruit_pos = (0,0)
 		self.generate_fruit()
 		self.score = 0
+		self.high_score = 0
 
 		if self.use_pygame:
 			self.win = pygame.display.set_mode((self.width, self.height))
@@ -174,5 +175,7 @@ class SnakeGameGym(SnakeGame):
 
 		self.snake = SnakeGym(self.rows,self.cols, self.get_rand_pos())
 		self.generate_fruit()
+		if(self.score > self.high_score):
+			self.high_score = self.score
 		self.restart = True
 		self.score = 0
