@@ -39,7 +39,7 @@ class SnakeGameGym(SnakeGame):
 		self.fps = fps  # FIXME: remove fps since it doesn't seem to be doing anything
 		self.rows = 10
 		self.cols = self.rows
-		self.snake = SnakeGym(self.rows,self.cols, self.make_snake_rand_pos())
+		self.snake = SnakeGym(self.rows,self.cols, self.get_rand_pos())
 		self.fruit_pos = (0,0)
 		self.generate_fruit()
 		self.score = 0
@@ -172,7 +172,7 @@ class SnakeGameGym(SnakeGame):
 	def game_over(self):
 		"""Function that restarts the game upon game over."""
 
-		self.snake = SnakeGym(self.rows,self.cols, self.make_snake_rand_pos())
+		self.snake = SnakeGym(self.rows,self.cols, self.get_rand_pos())
 		self.generate_fruit()
 		self.restart = True
 		self.score = 0
