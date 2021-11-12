@@ -39,13 +39,13 @@ import gym_snake.envs.snakeRewardFuncs as RewardFuncs
 
 # %%
 def trainRL(
-    train_timesteps: int,
-    env_name: str,
-    board_height: int,
-    board_width: int, 
-    visualize_training: bool,
-    visualization_fps: int, 
-    reward_function: Callable[..., float]
+    train_timesteps=1000, # Set amount of time for training. One step is one action for the snake.
+    env_name='snake-v0', # Set gym environment name.
+    board_height=10, # Set game board height.
+    board_width=10, # Set game board width.
+    visualize_training=False, # We don't want to visualize the training process.
+    visualization_fps=3000, # Default to a high value for training speed if training is visualized.
+    reward_function=RewardFuncs.basic_reward_func # Set reward function to be used in training. Reward functions are defined in snakeRewardFuncs.py
 ):
     env = gym.make(
         env_name, 
@@ -76,13 +76,13 @@ def trainRL(
 # %%
 def testRL(
     model,
-    test_timesteps: int,
-    env_name: str,
-    board_height: int,
-    board_width: int, 
-    visualize_testing: bool,
-    visualization_fps: int, 
-    reward_function: Callable[..., float]
+    test_timesteps=100, # Set amount of time for testing. One step is one action for the snake.
+    env_name='snake-v0', # Set gym environment name.
+    board_height=10, # Set game board height.
+    board_width=10, # Set game board width.
+    visualize_testing=True, # Set to true in order to see game moves in pygame. Should be false if run on server.
+    visualization_fps=30, # Set frames per second of testing visualization.
+    reward_function=RewardFuncs.basic_reward_func # Set reward function to be used in training. Reward functions are defined in snakeRewardFuncs.py
 ):
     # Setup
     env = gym.make(
@@ -139,38 +139,14 @@ def saveRL(
 
 
 # %% [markdown]
-# ## Initialize Game Variables
-# %%
-# Set amount of time for training/testing. One step is one action for the snake.
-train_timesteps=1000
-test_timesteps=100
-
-# Set gym environment name
-env_name = 'snake-v0'
-
-# Set board dimensions
-board_height = 10
-board_width = 10
-
-# Set visualization arguments
-visualize_training = False # We don't want to visualize the training process
-visualize_testing = True # Set to true in order to see game moves in pygame. Should be false if run on server.
-visualization_fps = 30
-
-# Set reward function to be used in training 
-# Reward functions are defined in snakeRewardFuncs.py
-reward_function = RewardFuncs.basic_reward_func 
-
-
-# %% [markdown]
 # ## Run in Notebook
 # To run in the notebook, uncomment the following three lines:
 
 # %%
-model = trainRL(train_timesteps, env_name, board_height, board_width, visualize_training, visualization_fps, reward_function)
-scores = testRL(model, test_timesteps, env_name, board_height, board_width, visualize_testing, visualization_fps, reward_function)
-analyzeRL(scores)
-saveRL(model)
+# model = trainRL()
+# scores = testRL(model)
+# analyzeRL(scores)
+# saveRL(model)
 
 # %% [markdown]
 # ## Run on commandline
@@ -191,7 +167,9 @@ def main():
     aparser.add_argument("--visualize_testing", type=bool, default=True)
     aparser.add_argument("--visualization_fps", type=int, default=30)
 
-    aparser.add_argument("--reward_function", type=Callable[..., float], default=RewardFuncs.basic_reward_func, help="function to determine how a snake agent is rewarded/punished for certain actions during training. Available functions can be found in snakeRewardFuncs.py")
+    # FIXME currently we are not able to pass an argument for selecting the reward function as a command line arg. 
+    # We should figure this out, but until then, change the reward function on line 181.
+    # aparser.add_argument("--reward_function", type=Callable[..., float], default=RewardFuncs.basic_reward_func, help="function to determine how a snake agent is rewarded/punished for certain actions during training. Available functions can be found in snakeRewardFuncs.py")
     
     aparser.add_argument("--print_analysis", type=bool, default=True, help="bool to determine whether or not analysis of test scores is done")    
     
@@ -199,6 +177,8 @@ def main():
     aparser.add_argument("--model_filename", type=str, default="", help="filename for model if it is saved. Should probably start with 'saved_models/' directory")        
     
     args = aparser.parse_args()
+
+    reward_function = RewardFuncs.basic_reward_func
     
     # Training
     model = trainRL(
@@ -208,7 +188,7 @@ def main():
         args.board_width,
         args.visualize_training,
         args.visualization_fps,
-        args.reward_function
+        reward_function
     )
     
     # Testing
@@ -220,7 +200,7 @@ def main():
         args.board_width,
         args.visualize_testing,
         args.visualization_fps,
-        args.reward_function)
+        reward_function)
     
     # Analysis
     if args.print_analysis:
