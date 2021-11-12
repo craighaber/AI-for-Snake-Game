@@ -4,10 +4,11 @@
 #to observe the best agents that were trained with the reinforcement learning algorithm.
 #*************************************************************************************
 
+import random
 import numpy as np
 from gym import spaces
 from gym_snake.envs.snakeGame import SnakeGame
-from gym_snake.envs.snake import Snake
+from gym_snake.envs.snakeGym import SnakeGym
 import pygame
 
 
@@ -50,13 +51,18 @@ class SnakeGameGym(SnakeGame):
 		self.fruit_pos = (0,0)
 		self.generate_fruit()
 		self.score = 0
-		self.high_score = 0	
+		self.high_score = 0
 
 		# initializing pygame visualization
 		if self.use_pygame:
 			self.win = pygame.display.set_mode((self.width, self.height))
 			self.clock = pygame.time.Clock()
 
+	def get_rand_pos(self):
+		rand_row = random.randrange(0, self.rows)
+		rand_col = random.randrange(0, self.cols)
+
+		return (rand_row, rand_col)
 
 	def pos_on_board(self, pos):
 		# If row index is less than 0 or greater than number of rows, pos is not on board
@@ -172,3 +178,13 @@ class SnakeGameGym(SnakeGame):
 				return True
 
 		return False
+
+	def game_over(self):
+		"""Function that restarts the game upon game over."""
+
+		self.snake = SnakeGym(self.rows,self.cols, self.get_rand_pos())
+		self.generate_fruit()
+		if(self.score > self.high_score):
+			self.high_score = self.score
+		self.restart = True
+		self.score = 0
