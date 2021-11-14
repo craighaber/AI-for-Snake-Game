@@ -44,7 +44,10 @@ class SnakeEnv(gym.Env):
         # Check to make sure action is valid
         err_msg = "%r (%s) invalid" % (action, type(action))
         assert self.action_space.contains(action), err_msg
+        
+        # Set last head pos before we move
         self.game.last_head_pos = self.game.snake.body[0]
+
         # Play one frame of Snake Game
         self.game.move_snake(action)
 
