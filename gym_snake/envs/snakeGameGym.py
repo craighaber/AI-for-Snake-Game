@@ -47,7 +47,7 @@ class SnakeGameGym(SnakeGame):
 		self.restart = False
 		self.rows = board_height
 		self.cols = board_width
-		self.snake = Snake(self.rows,self.cols)
+		self.snake = SnakeGym(self.rows, self.cols, self.get_rand_pos())
 		self.fruit_pos = (0,0)
 		self.generate_fruit()
 		self.score = 0
