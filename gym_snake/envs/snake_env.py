@@ -5,7 +5,7 @@ from typing import Callable
 from gym import spaces
 from numpy import ndarray
 from gym_snake.envs.snakeGameGym import *
-from gym_snake.envs.snakeRewardFuncs import basic_reward_func, reward_closer_to_fruit
+from gym_snake.envs.snakeRewardFuncs import *
 
 
 class SnakeEnv(gym.Env):
@@ -13,7 +13,7 @@ class SnakeEnv(gym.Env):
 
     def __init__(self, 
         use_pygame: bool = True, 
-        reward_func: Callable[..., float] = basic_reward_func):
+        reward_func: Callable[..., float] = reward_closer_to_fruit):
         """
         Function that initializes the snake environment.
 

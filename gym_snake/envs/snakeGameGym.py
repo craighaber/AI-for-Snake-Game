@@ -51,12 +51,18 @@ class SnakeGameGym(SnakeGame):
 			self.clock = pygame.time.Clock()
 
 	def get_rand_pos(self):
+		"""
+		Function that returns a random position on the board.
+		"""
 		rand_row = random.randrange(0, self.rows)
 		rand_col = random.randrange(0, self.cols)
 
 		return (rand_row, rand_col)
 
 	def pos_on_board(self, pos):
+		"""
+		Function that checks if a given position is on the board.
+		"""
 		# If row index is less than 0 or greater than number of rows, pos is not on board
 		if pos[0] < 0 or pos[0] >= self.rows:
 			return False
@@ -110,7 +116,7 @@ class SnakeGameGym(SnakeGame):
 		using a discrete 4-item action space as input.
 		"""
 		self.last_head_pos = self.snake.body[0]
-		
+
 		direct = self.move_map[action]
 
 		self.snake.directions.appendleft(direct)
@@ -174,11 +180,16 @@ class SnakeGameGym(SnakeGame):
 		return False
 
 	def check_closer_to_fruit(self) -> bool:
-
+		"""
+		Function that checks if the snake has moved closer to the fruit.
+		"""
 		head = self.snake.body[0]
 		return self.manhattan_distance(self.fruit_pos,self.last_head_pos) > self.manhattan_distance(self.fruit_pos, head)
 
 	def manhattan_distance(self, pos1, pos2) -> bool:
+		"""
+		Function that returns simple city-block distance
+		"""
 		row_diff = abs(pos1[0] - pos2[0])
 		col_diff = abs(pos1[1] - pos2[1])
 
