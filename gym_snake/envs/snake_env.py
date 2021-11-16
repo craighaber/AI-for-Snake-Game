@@ -12,22 +12,28 @@ class SnakeEnv(gym.Env):
     metadata = {'render.modes': ['human']}
 
     def __init__(self, 
-        use_pygame: bool = True, 
+        board_height: int = 10, 
+		board_width:int = 10, 
+		use_pygame: bool = True, 
+		fps: int = 3000,
         reward_func: Callable[..., float] = basic_reward_func):
         """
-        Function that initializes the snake environment.
+        Initializes the custom Snake gym environment.
 
-        use_pygame: a boolean flage representing whether or not to render the game with pygame
+		board_height: the number of rows on the game board. defaults to 10.
+		board_width: the number of columns on the game board. defaults to 10.
+		use_pygame: boolean flag for whether or not to visualize the environment with pygame. defaults to True.
+		fps: sets the speed of the game in frames per second.
         reward_func: a function that takes any inputs (representing important game states) and returns an 
                      int output representing a reward for the snake agent based on the inputs. 
                      Defaults to snakeRewardFunc.basic_reward_func()
         """
-        fps = 3000
         self.viewer = None
 
         if use_pygame:
             pygame.font.init()
-        self.game = SnakeGameGym(fps, use_pygame=use_pygame)
+            self.fps = fps
+        self.game = SnakeGameGym(board_height, board_width, use_pygame)
 
         self.reward_func = reward_func
         self.action_space = spaces.Discrete(4)
@@ -75,7 +81,7 @@ class SnakeEnv(gym.Env):
             self.game.respond_to_fruit_consumption()
         
         if self.game.use_pygame:
-            self.game.clock.tick(self.game.fps)
+            self.game.clock.tick(self.fps)
             self.game.redraw_window()
 
         return observation, rewards, done, info
