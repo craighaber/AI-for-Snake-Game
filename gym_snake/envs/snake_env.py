@@ -13,7 +13,7 @@ class SnakeEnv(gym.Env):
 
     def __init__(self, 
         use_pygame: bool = True, 
-        reward_func: Callable[..., float] = reward_closer_to_fruit):
+        reward_func: Callable[..., float] = basic_reward_func):
         """
         Function that initializes the snake environment.
 
