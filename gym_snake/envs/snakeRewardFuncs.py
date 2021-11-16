@@ -24,7 +24,7 @@ def basic_reward_func(reward_dict) -> float:
 
 def reward_closer_to_fruit(reward_dict) -> float:
     if reward_dict["did_consume_fruit"]:
-        return 1**10
+        return 10**10
     elif reward_dict["did_move_closer_to_fruit"]:
         return 1
     elif reward_dict["did_collide_wall"] or reward_dict["did_collide_body"]:

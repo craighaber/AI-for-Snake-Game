@@ -13,7 +13,7 @@ class SnakeEnv(gym.Env):
 
     def __init__(self, 
         use_pygame: bool = True, 
-        reward_func: Callable[..., float] = reward_closer_to_fruit):
+        reward_func: Callable[..., float] = basic_reward_func):
         """
         Function that initializes the snake environment.
 
@@ -45,9 +45,6 @@ class SnakeEnv(gym.Env):
         err_msg = "%r (%s) invalid" % (action, type(action))
         assert self.action_space.contains(action), err_msg
         
-        # Set last head pos before we move
-        self.game.last_head_pos = self.game.snake.body[0]
-
         # Play one frame of Snake Game
         self.game.move_snake(action)
 

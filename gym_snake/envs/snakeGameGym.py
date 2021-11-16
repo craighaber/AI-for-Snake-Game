@@ -109,6 +109,8 @@ class SnakeGameGym(SnakeGame):
 		Function that moves the snake on the board in one of four possible directions
 		using a discrete 4-item action space as input.
 		"""
+		self.last_head_pos = self.snake.body[0]
+		
 		direct = self.move_map[action]
 
 		self.snake.directions.appendleft(direct)
