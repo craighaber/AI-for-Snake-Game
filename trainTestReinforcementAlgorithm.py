@@ -43,7 +43,7 @@ def trainRL(
     env_name='snake-v0', # Set gym environment name.
     board_height=10, # Set game board height.
     board_width=10, # Set game board width.
-    num_allowed_moves_since_fruit=25, # Set number of allowed moves without fruit consumption before ending the game. Any non-poitive number corresponds to no limit.
+    num_allowed_moves_since_fruit=0, # Set number of allowed moves without fruit consumption before ending the game. Any non-poitive number corresponds to no limit.
     visualize_training=False, # We don't want to visualize the training process.
     visualization_fps=3000, # Default to a high value for training speed if training is visualized.
     reward_function=RewardFuncs.basic_reward_func # Set reward function to be used in training. Reward functions are defined in snakeRewardFuncs.py
@@ -82,7 +82,7 @@ def testRL(
     env_name='snake-v0', # Set gym environment name.
     board_height=10, # Set game board height.
     board_width=10, # Set game board width.
-    num_allowed_moves_since_fruit=25, # Set number of allowed moves without fruit consumption before ending the game. Any non-poitive number corresponds to no limit.
+    num_allowed_moves_since_fruit=0, # Set number of allowed moves without fruit consumption before ending the game. Any non-poitive number corresponds to no limit.
     visualize_testing=True, # Set to true in order to see game moves in pygame. Should be false if run on server.
     visualization_fps=30, # Set frames per second of testing visualization.
     reward_function=RewardFuncs.basic_reward_func # Set reward function to be used in training. Reward functions are defined in snakeRewardFuncs.py
