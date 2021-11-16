@@ -22,14 +22,14 @@ class SnakeGameGym(SnakeGame):
 	def __init__(self,
 		board_height: int, 
 		board_width:int, 
-		num_allowed_moves_since_fruit: int,
+		max_moves_no_fruit: int,
 		use_pygame: bool):
 		"""
 		Initializes the SnakeGameGym class.
 
 		board_height: the number of rows on the game board.
 		board_width: the number of columns on the game board.
-		num_allowed_moves_since_fruit: number of allowed consecutive moves that do not result in fruit consumption. 
+		max_moves_no_fruit: number of allowed consecutive moves that do not result in fruit consumption. 
 									   Non-positive values correspond to no limit.
 		use_pygame: boolean flag for whether or not to visualize the environment with pygame.
 		"""
@@ -41,7 +41,7 @@ class SnakeGameGym(SnakeGame):
 			2: "right",
 			3: "down",
 		}
-		self.num_allowed_moves_since_fruit = num_allowed_moves_since_fruit
+		self.max_moves_no_fruit = max_moves_no_fruit
 		self.num_moves_since_fruit = 0
 		
 		# original Snake instance variables
@@ -184,22 +184,22 @@ class SnakeGameGym(SnakeGame):
 
 		return False
 
-	def check_num_moves_since_fruit_valid(self) -> bool:
+	def check_exceeded_max_moves(self) -> bool:
 		"""
 		Function that checks whether or not the snake has made too many moves since 
 		last consuming a fruit.
 		"""
-		return (self.num_allowed_moves_since_fruit <= 0 or # non-positive allowed move count default returns true
+		return (self.max_moves_no_fruit <= 0 or # non-positive allowed move count default returns true
 				self.check_fruit_collision() or # if the snake's head is in the same space as a fruit return true
-				self.num_moves_since_fruit <= self.num_allowed_moves_since_fruit) #
+				self.num_moves_since_fruit <= self.max_moves_no_fruit) #
 
-	def reset_num_current_moves_since_fruit(self) -> None:
+	def reset_moves_since_fruit(self) -> None:
 		"""
 		Helper function for resetting num_current_moves_since_fruit
 		"""
 		self.num_moves_since_fruit = 0
 
-	def increment_num_current_moves_since_fruit(self) -> None:
+	def increment_moves_since_fruit(self) -> None:
 		"""
 		Helper function for incrementing num_current_moves_since_fruit
 		"""

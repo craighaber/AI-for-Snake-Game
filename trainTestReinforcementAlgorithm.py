@@ -43,7 +43,7 @@ def trainRL(
     env_name='snake-v0', # Set gym environment name.
     board_height=10, # Set game board height.
     board_width=10, # Set game board width.
-    num_allowed_moves_since_fruit=0, # Set number of allowed moves without fruit consumption before ending the game. Any non-poitive number corresponds to no limit.
+    max_moves_no_fruit=0, # Set number of allowed moves without fruit consumption before ending the game. Any non-poitive number corresponds to no limit.
     visualize_training=False, # We don't want to visualize the training process.
     visualization_fps=3000, # Default to a high value for training speed if training is visualized.
     reward_function=RewardFuncs.basic_reward_func # Set reward function to be used in training. Reward functions are defined in snakeRewardFuncs.py
@@ -52,7 +52,7 @@ def trainRL(
         env_name, 
         board_height=board_height,
         board_width=board_width,
-        num_allowed_moves_since_fruit=num_allowed_moves_since_fruit,
+        max_moves_no_fruit=max_moves_no_fruit,
         use_pygame=visualize_training,
         fps=visualization_fps, 
         reward_func=reward_function
@@ -82,7 +82,7 @@ def testRL(
     env_name='snake-v0', # Set gym environment name.
     board_height=10, # Set game board height.
     board_width=10, # Set game board width.
-    num_allowed_moves_since_fruit=0, # Set number of allowed moves without fruit consumption before ending the game. Any non-poitive number corresponds to no limit.
+    max_moves_no_fruit=0, # Set number of allowed moves without fruit consumption before ending the game. Any non-poitive number corresponds to no limit.
     visualize_testing=True, # Set to true in order to see game moves in pygame. Should be false if run on server.
     visualization_fps=30, # Set frames per second of testing visualization.
     reward_function=RewardFuncs.basic_reward_func # Set reward function to be used in training. Reward functions are defined in snakeRewardFuncs.py
@@ -92,7 +92,7 @@ def testRL(
         env_name, 
         board_height=board_height,
         board_width=board_width, 
-        num_allowed_moves_since_fruit=num_allowed_moves_since_fruit,
+        max_moves_no_fruit=max_moves_no_fruit,
         use_pygame=visualize_testing,
         fps=visualization_fps, 
         reward_func=reward_function
@@ -167,7 +167,7 @@ def main():
 
     aparser.add_argument("--board_height", type=int, default=10)
     aparser.add_argument("--board_width", type=int, default=10)
-    aparser.add_argument("--num_allowed_moves_since_fruit", type=int, default=0)
+    aparser.add_argument("--max_moves_no_fruit", type=int, default=0)
     aparser.add_argument("--visualize_training", type=bool, default=False)
     aparser.add_argument("--visualize_testing", type=bool, default=True)
     aparser.add_argument("--visualization_fps", type=int, default=30)
@@ -191,7 +191,7 @@ def main():
         args.env_name,
         args.board_height,
         args.board_width,
-        args.num_allowed_moves_since_fruit,
+        args.max_moves_no_fruit,
         args.visualize_training,
         args.visualization_fps,
         reward_function
@@ -204,7 +204,7 @@ def main():
         args.env_name,
         args.board_height,
         args.board_width,
-        args.num_allowed_moves_since_fruit,
+        args.max_moves_no_fruit,
         args.visualize_testing,
         args.visualization_fps,
         reward_function)
