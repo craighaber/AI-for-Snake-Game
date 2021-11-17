@@ -32,7 +32,7 @@ def basic_reward_func_with_move_ceiling(reward_dict) -> float:
         did_consume_fruit: boolean representing whether a snake consumed a fruit in the last move
         did_collide_wall: boolean representing whether a snake collided with itself in the last move
         did_collide_body: boolean representing whether a snake collided with a wall in the last move
-        did_exceed_allowed_moves_no_fruit: boolean representing whether a snake has exceeded the number of allowable 
+        did_exceed_max_moves_no_fruit: boolean representing whether a snake has exceeded the number of allowable 
                                            moves without consuming a fruit
 
     output: 
@@ -42,7 +42,7 @@ def basic_reward_func_with_move_ceiling(reward_dict) -> float:
         return 10.0
     elif reward_dict["did_collide_wall"] or reward_dict["did_collide_body"]:
         return -1.0
-    elif reward_dict["did_exceed_allowed_moves_no_fruit"]:
+    elif reward_dict["did_exceed_max_moves_no_fruit"]:
         return -5.0
     else: 
         return 0.0

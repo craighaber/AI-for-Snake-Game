@@ -198,9 +198,9 @@ class SnakeGameGym(SnakeGame):
 		Function that checks whether or not the snake has made too many moves since 
 		last consuming a fruit.
 		"""
-		return (self.max_moves_no_fruit <= 0 or # non-positive allowed move count default returns true
-				self.check_fruit_collision() or # if the snake's head is in the same space as a fruit return true
-				self.num_moves_since_fruit <= self.max_moves_no_fruit) #
+		return (self.max_moves_no_fruit > 0 and # non-positive max move count default returns false
+				not self.check_fruit_collision() and # if the snake's head is in the same space as a fruit return false
+				self.num_moves_since_fruit > self.max_moves_no_fruit) #
 
 	def reset_moves_since_fruit(self) -> None:
 		"""

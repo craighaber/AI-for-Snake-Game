@@ -66,8 +66,8 @@ class SnakeEnv(gym.Env):
         did_collide_body = self.game.check_body_collision()
         did_move_closer_to_fruit = self.game.check_closer_to_fruit()
 
-        # Check if snake is within threshold of allowable moves without consuming fruit
-        did_exceed_allowed_moves_no_fruit = not self.game.check_exceeded_max_moves()
+        # Check if snake exceeded threshold of max moves without consuming fruit
+        did_exceed_max_moves_no_fruit = self.game.check_exceeded_max_moves()
 
         # Get observation after move
         observation = self.game.get_board()
@@ -77,13 +77,13 @@ class SnakeEnv(gym.Env):
             "did_consume_fruit":did_consume_fruit,
             "did_collide_wall": did_collide_wall,
             "did_collide_body": did_collide_body,
-            "did_exceed_allowed_moves_no_fruit": did_exceed_allowed_moves_no_fruit,
+            "did_exceed_max_moves_no_fruit": did_exceed_max_moves_no_fruit,
             "did_move_closer_to_fruit": did_move_closer_to_fruit
         }
         rewards = self.reward_func(reward_dict)
 
         # Game is over if wall collision, body collision, or too many moves before consuming a fruit occurred.
-        done = did_collide_wall or did_collide_body or did_exceed_allowed_moves_no_fruit
+        done = did_collide_wall or did_collide_body or did_exceed_max_moves_no_fruit
 
         # FIXME: Figure out what to do with info. stable_baseline3 seems to require episode object
         info = {"episode": None}  
