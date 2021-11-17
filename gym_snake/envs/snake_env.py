@@ -5,7 +5,7 @@ from typing import Callable
 from gym import spaces
 from numpy import ndarray
 from gym_snake.envs.snakeGameGym import *
-from gym_snake.envs.snakeRewardFuncs import basic_reward_func
+from gym_snake.envs.snakeRewardFuncs import *
 
 
 class SnakeEnv(gym.Env):
@@ -53,7 +53,7 @@ class SnakeEnv(gym.Env):
         # Check to make sure action is valid
         err_msg = "%r (%s) invalid" % (action, type(action))
         assert self.action_space.contains(action), err_msg
-
+        
         # Play one frame of Snake Game
         self.game.move_snake(action)
 
@@ -64,6 +64,7 @@ class SnakeEnv(gym.Env):
         did_consume_fruit = self.game.check_fruit_collision()
         did_collide_wall = self.game.check_wall_collision()
         did_collide_body = self.game.check_body_collision()
+        did_move_closer_to_fruit = self.game.check_closer_to_fruit()
 
         # Check if snake is within threshold of allowable moves without consuming fruit
         did_exceed_allowed_moves_no_fruit = not self.game.check_exceeded_max_moves()
@@ -76,7 +77,8 @@ class SnakeEnv(gym.Env):
             "did_consume_fruit":did_consume_fruit,
             "did_collide_wall": did_collide_wall,
             "did_collide_body": did_collide_body,
-            "did_exceed_allowed_moves_no_fruit": did_exceed_allowed_moves_no_fruit
+            "did_exceed_allowed_moves_no_fruit": did_exceed_allowed_moves_no_fruit,
+            "did_move_closer_to_fruit": did_move_closer_to_fruit
         }
         rewards = self.reward_func(reward_dict)
 
