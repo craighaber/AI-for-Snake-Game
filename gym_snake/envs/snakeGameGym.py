@@ -22,12 +22,15 @@ class SnakeGameGym(SnakeGame):
 	def __init__(self,
 		board_height: int, 
 		board_width:int, 
+		max_moves_no_fruit: int,
 		use_pygame: bool):
 		"""
 		Initializes the SnakeGameGym class.
 
 		board_height: the number of rows on the game board.
 		board_width: the number of columns on the game board.
+		max_moves_no_fruit: number of allowed consecutive moves that do not result in fruit consumption. 
+									   Non-positive values correspond to no limit.
 		use_pygame: boolean flag for whether or not to visualize the environment with pygame.
 		"""
 		# SnakeGameGym specific instance variables
@@ -38,6 +41,8 @@ class SnakeGameGym(SnakeGame):
 			2: "right",
 			3: "down",
 		}
+		self.max_moves_no_fruit = max_moves_no_fruit
+		self.num_moves_since_fruit = 0
 		
 		# original Snake instance variables
 		self.width = 500
@@ -188,6 +193,27 @@ class SnakeGameGym(SnakeGame):
 
 		return False
 
+	def check_exceeded_max_moves(self) -> bool:
+		"""
+		Function that checks whether or not the snake has made too many moves since 
+		last consuming a fruit.
+		"""
+		return (self.max_moves_no_fruit > 0 and # non-positive max move count default returns false
+				not self.check_fruit_collision() and # if the snake's head is in the same space as a fruit return false
+				self.num_moves_since_fruit > self.max_moves_no_fruit) #
+
+	def reset_moves_since_fruit(self) -> None:
+		"""
+		Helper function for resetting num_current_moves_since_fruit
+		"""
+		self.num_moves_since_fruit = 0
+
+	def increment_moves_since_fruit(self) -> None:
+		"""
+		Helper function for incrementing num_current_moves_since_fruit
+		"""
+		self.num_moves_since_fruit += 1
+		
 	def check_closer_to_fruit(self) -> bool:
 		"""
 		Function that checks if the snake has moved closer to the fruit.
