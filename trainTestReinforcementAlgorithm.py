@@ -39,15 +39,30 @@ import gym_snake.envs.snakeRewardFuncs as RewardFuncs
 
 # %%
 def trainRL(
-    train_timesteps=1000, # Set amount of time for training. One step is one action for the snake.
-    env_name='snake-v0', # Set gym environment name.
-    board_height=10, # Set game board height.
-    board_width=10, # Set game board width.
-    max_moves_no_fruit=0, # Set number of allowed moves without fruit consumption before ending the game. Any non-poitive number corresponds to no limit.
-    visualize_training=False, # We don't want to visualize the training process.
-    visualization_fps=3000, # Default to a high value for training speed if training is visualized.
-    reward_function=RewardFuncs.basic_reward_func # Set reward function to be used in training. Reward functions are defined in snakeRewardFuncs.py
+    model_generator = lambda env: A2C('MlpPolicy', env, verbose=0),
+    train_timesteps=1000,
+    env_name='snake-v0',
+    board_height=10,
+    board_width=10,
+    max_moves_no_fruit=0,
+    visualize_training=False,
+    visualization_fps=3000,
+    reward_function=RewardFuncs.basic_reward_func
 ):
+    """
+    Args:
+        model_generator (fn(env)->stable_baselines3_model): function that takes environment and generates an untrained model.
+        train_timesteps (int): Set amount of time for training. One step is one action for the snake.
+        env_name (str): Set gym environment name.
+        board_height (int): Set game board height.
+        board_width (int): Set game board width.
+        max_moves_no_fruit (int): Set number of allowed moves without fruit consumption before ending the game. Any non-poitive number corresponds to no limit.
+        visualize_training (bool): We don't want to visualize the training process.
+        visualization_fps (int): Default to a high value for training speed if training is visualized.
+        reward_function (fn(reward_dict)->int): Set reward function to be used in training. Reward functions are defined in snakeRewardFuncs.py
+    Returns:
+        A trained stable_baselines3 model
+    """
     env = gym.make(
         env_name, 
         board_height=board_height,
@@ -58,8 +73,8 @@ def trainRL(
         reward_func=reward_function
     )  
     
-    # Model is defined here. This is hard to parameterize so change this code to play with different models
-    model = A2C('MlpPolicy', env, verbose=1)    
+    # Use model_generator and env to create model
+    model = model_generator(env)
     
     t0 = time.time()
     model.learn(
@@ -119,12 +134,24 @@ def analyzeRL(
     scores,  # array of scores for each completed game
 ):
     s_arr = np.array(scores)
+
+    analysis = {
+        "completed_games": len(s_arr),
+        "high_score": -1,
+        "mean_score": -1,
+        "median_score": -1,
+    }
     print("Number of completed games: ", len(s_arr))
 
     if len(s_arr) > 0:
-        print("High Score over all games: ", np.max(s_arr))
-        print("Mean Score over all games: ", np.average(s_arr))
-        print("Median Score over all games: ", np.median(s_arr))    
+        analysis["high_score"]= np.max(s_arr)
+        analysis["mean_score"]= np.average(s_arr)
+        analysis["median_score"]= np.median(s_arr)
+        print("High Score over all games: ", analysis["high_score"])
+        print("Mean Score over all games: ", analysis["mean_score"])
+        print("Median Score over all games: ", analysis["median_score"])
+
+    return analysis
 
 
 # %% [markdown]
@@ -172,10 +199,6 @@ def main():
     aparser.add_argument("--visualize_testing", type=bool, default=True)
     aparser.add_argument("--visualization_fps", type=int, default=30)
 
-    # FIXME currently we are not able to pass an argument for selecting the reward function as a command line arg. 
-    # We should figure this out, but until then, change the reward function on line 181.
-    # aparser.add_argument("--reward_function", type=Callable[..., float], default=RewardFuncs.basic_reward_func, help="function to determine how a snake agent is rewarded/punished for certain actions during training. Available functions can be found in snakeRewardFuncs.py")
-    
     aparser.add_argument("--print_analysis", type=bool, default=True, help="bool to determine whether or not analysis of test scores is done")    
     
     aparser.add_argument("--save_model", type=bool, default=False, help="bool to determine whether or not to save the trained model")        
@@ -183,10 +206,14 @@ def main():
     
     args = aparser.parse_args()
 
+    # Define variables that cannot be passed as CL args
+    # FIXME: Figure out a way to pass these as CL arguments
     reward_function = RewardFuncs.basic_reward_func
+    model_generator = lambda env: A2C('MlpPolicy', env, verbose=1)
     
     # Training
     model = trainRL(
+        model_generator,
         args.train_timesteps, 
         args.env_name,
         args.board_height,
