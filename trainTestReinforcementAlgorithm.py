@@ -47,7 +47,8 @@ def trainRL(
     max_moves_no_fruit=0,
     visualize_training=False,
     visualization_fps=3000,
-    reward_function=RewardFuncs.basic_reward_func
+    reward_function=RewardFuncs.basic_reward_func,
+    represent_border=False,
 ):
     """
     Args:
@@ -60,6 +61,7 @@ def trainRL(
         visualize_training (bool): We don't want to visualize the training process.
         visualization_fps (int): Default to a high value for training speed if training is visualized.
         reward_function (fn(reward_dict)->int): Set reward function to be used in training. Reward functions are defined in snakeRewardFuncs.py
+        represent_border (bool):
     Returns:
         A trained stable_baselines3 model
     """
@@ -70,7 +72,8 @@ def trainRL(
         max_moves_no_fruit=max_moves_no_fruit,
         use_pygame=visualize_training,
         fps=visualization_fps, 
-        reward_func=reward_function
+        reward_func=reward_function,
+        represent_border=represent_border,
     )  
     
     # Use model_generator and env to create model
@@ -100,7 +103,8 @@ def testRL(
     max_moves_no_fruit=0, # Set number of allowed moves without fruit consumption before ending the game. Any non-poitive number corresponds to no limit.
     visualize_testing=True, # Set to true in order to see game moves in pygame. Should be false if run on server.
     visualization_fps=30, # Set frames per second of testing visualization.
-    reward_function=RewardFuncs.basic_reward_func # Set reward function to be used in training. Reward functions are defined in snakeRewardFuncs.py
+    reward_function=RewardFuncs.basic_reward_func, # Set reward function to be used in training. Reward functions are defined in snakeRewardFuncs.py
+    represent_border=False,
 ):
     # Setup
     env = gym.make(
@@ -110,7 +114,8 @@ def testRL(
         max_moves_no_fruit=max_moves_no_fruit,
         use_pygame=visualize_testing,
         fps=visualization_fps, 
-        reward_func=reward_function
+        reward_func=reward_function,
+        represent_border=represent_border,
     )
     obs = env.reset()
     
