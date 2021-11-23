@@ -17,7 +17,8 @@ class SnakeEnv(gym.Env):
 		max_moves_no_fruit: int = 0,
 		use_pygame: bool = True, 
 		fps: int = 3000,
-        reward_func: Callable[..., float] = basic_reward_func):
+        reward_func: Callable[..., float] = basic_reward_func,
+        represent_border: bool = False):
         """
         Initializes the custom Snake gym environment.
 
@@ -30,6 +31,7 @@ class SnakeEnv(gym.Env):
         reward_func: a function that takes any inputs (representing important game states) and returns an 
                      int output representing a reward for the snake agent based on the inputs. 
                      Defaults to snakeRewardFunc.basic_reward_func()
+        represent_border: boolean flag for whether or not to represent the border in observation.
         """
         self.viewer = None
 
@@ -40,7 +42,13 @@ class SnakeEnv(gym.Env):
 
         self.reward_func = reward_func
         self.action_space = spaces.Discrete(4)
-        self.observation_space = spaces.Box(low=0, high=3, shape=(self.game.cols, self.game.rows), dtype=int)
+
+        # Create Observation Space
+        # Border requires two additional rows and columns
+        obs_rows = self.game.rows + int(represent_border) * 2
+        obs_cols = self.game.cols + int(represent_border) * 2
+        self.observation_space = spaces.Box(low=0, high=3, shape=(obs_cols, obs_rows), dtype=int)  # TODO: make sure (cols, rows) is correct order
+        self.represent_border = represent_border
            
 
 
@@ -70,7 +78,7 @@ class SnakeEnv(gym.Env):
         did_exceed_max_moves_no_fruit = self.game.check_exceeded_max_moves()
 
         # Get observation after move
-        observation = self.game.get_board()
+        observation = self.game.get_board(self.represent_border)
 
         # Get rewards based on collision status
         reward_dict = {
@@ -108,7 +116,7 @@ class SnakeEnv(gym.Env):
         Function that collects the game board observation, ends the game,
         and returns the observation.
         """
-        observation = self.game.get_board()
+        observation = self.game.get_board(self.represent_border)
         self.game.game_over()
 
         # game_over sets restart to  true. It then needs to be reset to false. 
@@ -126,7 +134,7 @@ class SnakeEnv(gym.Env):
         NOTE: As of now, this render function is NOT working. Evidently,
         SimpleImageViewer is not that simple
         """
-        observation = self.game.get_board()
+        observation = self.game.get_board(self.represent_border)
 
         #Non-graphical
         if mode == "array":
