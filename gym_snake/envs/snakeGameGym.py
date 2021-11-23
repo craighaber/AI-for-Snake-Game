@@ -88,10 +88,13 @@ class SnakeGameGym(SnakeGame):
 		# Otherwise, pos is on board
 		return True
 
-	def get_board(self) -> np.ndarray:
+	def get_board(self, represent_border=False) -> np.ndarray:
 		"""
+		Args:
+			represent_border: bool flag for whether to represent the border in the board.
 		Uses sefl.rows, self.cols, self.snake, and self.fruit_pos in order
 		to create a list representation of the board
+		-1 is border (if applicable)
 		0 is empty space
 		1 is space with fruit in it
 		2 is space with snake body in it
@@ -99,28 +102,42 @@ class SnakeGameGym(SnakeGame):
 		"""
 		# Initializes empty board
 		board = np.zeros([self.rows, self.cols], dtype=int)
+		border_space = 0
+
+		if represent_border:
+			board = np.zeros([self.rows+2, self.cols+2], dtype=int)
+			border_space = 1  # FIXME: can be replaced with int(represent_border)
+
+			# Create border of -1
+			board[0] = -1
+			board[-1] = -1
+			for r in range(board.shape[0]):
+				board[r][0] = -1
+				board[r][-1] = -1
 
 		# Add Fruit
-		fruit_row = self.fruit_pos[0]
-		fruit_col = self.fruit_pos[1]
+		fruit_row = self.fruit_pos[0] + border_space
+		fruit_col = self.fruit_pos[1] + border_space
 		board[fruit_row][fruit_col] = 1
 
 		# Add Snake to Board
 		for i in range(len(self.snake.body)):
 			pos = self.snake.body[i]
+			snake_row = pos[0] + border_space
+			snake_col = pos[1] + border_space
 			
 			# If body position is outside of the board, do not add this to board representation
-			if not self.pos_on_board(pos):
-				# FIXME: figure out a better way to represent this condition
+			# This is not needed if we represent the border
+			if not represent_border and not self.pos_on_board(pos):
 				pass
 
 			# Add Snake Head
 			elif i == 0:
-				board[pos[0]][pos[1]] = 3
+				board[snake_row][snake_col] = 3
 			
 			# Add rest of Snake Body
 			else:
-				board[pos[0]][pos[1]] = 2
+				board[snake_row][snake_col] = 2
 
 		return board
 
