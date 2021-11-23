@@ -117,6 +117,7 @@ def testRL(
     # Run
     scores = []
     for i in range(test_timesteps):
+        # TODO: consider whether we should try non-deterministic
         action, _state = model.predict(obs, deterministic=True)
         obs, reward, done, info = env.step(action)
         if done:
