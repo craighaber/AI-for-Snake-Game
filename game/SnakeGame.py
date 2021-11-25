@@ -4,9 +4,9 @@
 # *************************************************************************************
 import random
 
-from game.Snake import Snake
-from game.GameState import GameState
 from game.Board import Board, States, Directions
+from game.GameState import GameState
+from game.Snake import Snake
 
 
 class SnakeGame:

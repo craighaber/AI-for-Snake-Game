@@ -47,7 +47,7 @@ class Board:
                 elif self.board[row_index][col_index].state == States.SNAKE_BODY:
                     print(self.board[row_index][col_index].direction)
                     if self.board[row_index][col_index].direction == Directions.UP or self.board[row_index][
-                            col_index].direction == Directions.DOWN:
+                        col_index].direction == Directions.DOWN:
                         output = output + " | "
                     else:
                         output = output + "---"

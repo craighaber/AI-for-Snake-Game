@@ -1,8 +1,9 @@
-from game.SnakeGame import SnakeGame
+import pygame
+
 from game.Board import Directions
 from game.GUI import GUI
+from game.SnakeGame import SnakeGame
 
-import pygame
 
 def main():
     game = SnakeGame()
