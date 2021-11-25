@@ -6,7 +6,7 @@ import random
 
 from game.Snake import Snake
 from game.GameState import GameState
-from game.board import Board, States, Directions
+from game.Board import Board, States, Directions
 
 
 class SnakeGame:

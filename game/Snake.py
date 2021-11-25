@@ -3,7 +3,7 @@
 # original work available at https://github.com/craighaber/AI-for-Snake-Game
 # *************************************************************************************
 import collections
-from game.board import Directions
+from game.Board import Directions
 
 
 class Snake:

@@ -1,9 +1,15 @@
 from game.SnakeGame import SnakeGame
-from game.board import Directions
+from game.Board import Directions
+from game.GUI import GUI
 
+import pygame
 
 def main():
     game = SnakeGame()
+    view = GUI()
+    pygame.font.init()
+    view.redraw_window(game)
+
     while not game.is_game_over():
         print(game.get_board())
         print(f'Score: {game.get_score()}')
@@ -22,6 +28,8 @@ def main():
                 print("Invalid token use WSAD")
 
         game.check_collisions()
+        view.redraw_window(game)
+        view.event_handler()
 
 
 # Press the green button in the gutter to run the script.
