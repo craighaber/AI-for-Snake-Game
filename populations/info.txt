@@ -1,1 +1,0 @@
-The text files that are generated in this folder are the populations of the chromosomes that are created every 10 generations in trainGeneticAlgorithm.py
