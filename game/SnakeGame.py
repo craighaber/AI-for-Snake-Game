@@ -4,7 +4,9 @@
 # *************************************************************************************
 import random
 
-from game.Board import Board, States, Directions
+from game.Board import Board, States
+from game.Coordinates import Coordinates
+from game.Directions import Directions
 from game.GameState import GameState
 from game.Snake import Snake
 
@@ -16,23 +18,27 @@ class SnakeGame:
         self.rows = 10
         self.cols = self.rows
         self.snake = Snake(self.rows, self.cols)
-        self.fruit_pos = (0, 0)
+        self.fruit_pos = Coordinates(0, 0)
         self.generate_fruit()
         self.score = 0
         self.game_state: GameState = GameState.INPROGRESS
+        self.loop_around = True
 
     def generate_fruit(self):
         """Function to generate a new random position for the fruit."""
 
-        fruit_row = random.randrange(0, self.rows)
-        fruit_col = random.randrange(0, self.cols)
+        #fruit_row = random.randrange(0, self.rows)
+        #fruit_col = random.randrange(0, self.cols)
+
+        fruit_pos = Coordinates(random.randrange(0, self.rows), random.randrange(0, self.cols))
 
         # Continually generate a location for the fruit until it is not in the snake's body
-        while (fruit_row, fruit_col) in self.snake.body:
-            fruit_row = random.randrange(0, self.rows)
-            fruit_col = random.randrange(0, self.cols)
+        while fruit_pos in self.snake.body:
+            #fruit_row = random.randrange(0, self.rows)
+            #fruit_col = random.randrange(0, self.cols)
+            fruit_pos = Coordinates(random.randrange(0, self.rows), random.randrange(0, self.cols))
 
-        self.fruit_pos = (fruit_row, fruit_col)
+        self.fruit_pos = fruit_pos
 
     def move_snake(self, direction: Directions):
         """Function to allow the user to move the snake with the arrow keys."""
@@ -52,7 +58,8 @@ class SnakeGame:
 
     def check_fruit_collision(self):
         """Function that detects and handles if the snake has collided with a fruit."""
-
+        print(f"{self.snake.body[0].x_coord}, {self.snake.body[0].y_coord}")
+        print(f"{self.fruit_pos.x_coord}, {self.fruit_pos.y_coord}")
         # If we found a fruit
         if self.snake.body[0] == self.fruit_pos:
             # Add the new body square to the tail of the snake
@@ -67,8 +74,8 @@ class SnakeGame:
 
         # Only need to check the collisions of the head of the snake
         head = self.snake.body[0]
-        head_y = head[0]
-        head_x = head[1]
+        head_y = head.y_coord
+        head_x = head.x_coord
 
         # If there is a wall collision, game over
         if head_x == self.cols or head_y == self.rows or head_x < 0 or head_y < 0:
@@ -78,7 +85,7 @@ class SnakeGame:
         """Function that checks and handles if the snake has collided with its own body."""
 
         if len(self.snake.body) > 1:
-            # Only need to check the colisions of the head of the snake
+            # Only need to check the collisions of the head of the snake
             head = self.snake.body[0]
             body_without_head = self.snake.body[1:]
 

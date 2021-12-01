@@ -62,22 +62,22 @@ class GUI:
         space_row = (self.height - self.grid_start_y) // game.rows
 
         # Draw the fruit
-        fruit_y = game.fruit_pos[0]
-        fruit_x = game.fruit_pos[1]
+        fruit_y = game.fruit_pos.x_coord
+        fruit_x = game.fruit_pos.y_coord
         pygame.draw.rect(self.win, pygame.Color(250, 30, 30), (
             space_col * fruit_x + 1, self.grid_start_y + space_row * fruit_y + 1, space_col - 1, space_row - 1))
 
         # Draw the updated snake since last movement
         for pos in game.snake.body:
-            pos_y = pos[0]
-            pos_x = pos[1]
+            pos_y = pos.x_coord
+            pos_x = pos.y_coord
 
             pygame.draw.rect(self.win, pygame.Color(31, 240, 12), (
                 space_col * pos_x + 1, self.grid_start_y + space_row * pos_y + 1, space_col - 1, space_row - 1))
 
         head = game.snake.body[0]
-        head_y = head[0]
-        head_x = head[1]
+        head_y = head.x_coord
+        head_x = head.y_coord
         try:
             head_dir = game.snake.directions[0]
         except IndexError:
