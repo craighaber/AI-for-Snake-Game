@@ -23,8 +23,7 @@ class Snake:
         Initializes the first position for the snake.
 
         Returns:
-        A tuple representing the position for the snake in
-        the format of (row, column).
+        A Coordinate representing the position for the snake.
 
         """
         snake_row = self.rows // 2
@@ -44,24 +43,8 @@ class Snake:
         for i, pos in enumerate(self.body):
             # Get the direction to move next that corresponds to the body position
             direction = self.directions[i]
+            # Update the body position after moving in the direction
             self.body[i] = pos.apply_modifier(direction)
-
-            ## Update the body position after moving in the direction
-            #if direction == Directions.LEFT:
-            #    # Move left
-            #    self.body[i] = (pos[0], pos[1] - 1)
-            #elif direction == Directions.UP:
-            #    # Move up
-            #    self.body[i] = (pos[0] - 1, pos[1])
-
-            #elif direction == Directions.RIGHT:
-            #    # Move right
-            #    self.body[i] = (pos[0], pos[1] + 1)
-            #elif direction == Directions.DOWN:
-            #    # Move down
-            #    self.body[i] = (pos[0] + 1, pos[1])
-            #else:
-            #    raise LookupError
 
     def extend_snake(self):
         """
@@ -74,6 +57,7 @@ class Snake:
         # Get the direction of the tail of the body
         tail_dir = self.directions[-1]
 
+        # spawn the new body component in the opposite direction of the snake's movement
         match tail_dir:
             case Directions.DOWN:
                 self.body.append(snake_tail.apply_modifier(Directions.UP))
@@ -83,20 +67,5 @@ class Snake:
                 self.body.append(snake_tail.apply_modifier(Directions.RIGHT))
             case Directions.RIGHT:
                 self.body.append(snake_tail.apply_modifier(Directions.LEFT))
-
-        #self.body.append(snake_tail.apply_modifier(tail_dir))
-
-        #if tail_dir == Directions.LEFT:
-        #    # If tail is going left, add new tail to right of old tail
-        #    self.body.append((snake_tail[0], snake_tail[1] + 1))
-        #elif tail_dir == Directions.UP:
-        #    # If tail is going up, add new tail below old tail
-        #    self.body.append((snake_tail[0] + 1, snake_tail[1]))
-        #elif tail_dir == Directions.RIGHT:
-        #    # If tail is going right, add new tail to the left of old tail
-        #    self.body.append((snake_tail[0], snake_tail[1] - 1))
-        #elif tail_dir == Directions.DOWN:
-        #    # If tail is going down, add new tail above old tail
-        #    self.body.append((snake_tail[0] - 1, snake_tail[1]))
-        #else:
-        #    raise LookupError
+            case _:
+                raise LookupError

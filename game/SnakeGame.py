@@ -26,16 +26,10 @@ class SnakeGame:
 
     def generate_fruit(self):
         """Function to generate a new random position for the fruit."""
-
-        #fruit_row = random.randrange(0, self.rows)
-        #fruit_col = random.randrange(0, self.cols)
-
         fruit_pos = Coordinates(random.randrange(0, self.rows), random.randrange(0, self.cols))
 
         # Continually generate a location for the fruit until it is not in the snake's body
         while fruit_pos in self.snake.body:
-            #fruit_row = random.randrange(0, self.rows)
-            #fruit_col = random.randrange(0, self.cols)
             fruit_pos = Coordinates(random.randrange(0, self.rows), random.randrange(0, self.cols))
 
         self.fruit_pos = fruit_pos
@@ -58,8 +52,6 @@ class SnakeGame:
 
     def check_fruit_collision(self):
         """Function that detects and handles if the snake has collided with a fruit."""
-        print(f"{self.snake.body[0].x_coord}, {self.snake.body[0].y_coord}")
-        print(f"{self.fruit_pos.x_coord}, {self.fruit_pos.y_coord}")
         # If we found a fruit
         if self.snake.body[0] == self.fruit_pos:
             # Add the new body square to the tail of the snake
