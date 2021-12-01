@@ -99,7 +99,7 @@ class SnakeGame:
 
         for rowIndex in range(self.rows):
             for colIndex in range(self.cols):
-                current_position = (rowIndex, colIndex)
+                current_position = Coordinates(rowIndex, colIndex)
                 state: States = States.NONE
                 direction: Directions = Directions.NONE
                 if current_position == self.fruit_pos:
